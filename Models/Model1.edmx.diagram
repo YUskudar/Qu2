@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="42be0761a1a84a91954aa6fdec867941" Name="Diagram1">
+        <EntityTypeShape EntityType="chattingonlyModel.admin" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="chattingonlyModel.comment" Width="1.5" PointX="5.25" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="chattingonlyModel.content" Width="1.5" PointX="3" PointY="9.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="chattingonlyModel.group" Width="1.5" PointX="0.75" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="chattingonlyModel.groupmessage" Width="1.5" PointX="3" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="chattingonlyModel.picture" Width="1.5" PointX="5.25" PointY="9.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="chattingonlyModel.sysdiagrams" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="chattingonlyModel.user" Width="1.5" PointX="0.75" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="chattingonlyModel.usergroups" Width="1.5" PointX="3" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="chattingonlyModel.video" Width="1.5" PointX="5.25" PointY="11.625" IsExpanded="true" />
+        <AssociationConnector Association="chattingonlyModel.FK_comment_content" ManuallyRouted="false" />
+        <AssociationConnector Association="chattingonlyModel.FK_comment_user" ManuallyRouted="false" />
+        <AssociationConnector Association="chattingonlyModel.FK_content_user" ManuallyRouted="false" />
+        <AssociationConnector Association="chattingonlyModel.FK_picture_content" ManuallyRouted="false" />
+        <AssociationConnector Association="chattingonlyModel.FK_video_content" ManuallyRouted="false" />
+        <AssociationConnector Association="chattingonlyModel.FK_groupmessage_group" ManuallyRouted="false" />
+        <AssociationConnector Association="chattingonlyModel.FK_usergroups_group" ManuallyRouted="false" />
+        <AssociationConnector Association="chattingonlyModel.FK_groupmessage_user" ManuallyRouted="false" />
+        <AssociationConnector Association="chattingonlyModel.FK_usergroups_user" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="chattingonlyModel.likes" Width="1.5" PointX="8.25" PointY="8.5" />
+        <AssociationConnector Association="chattingonlyModel.FK_likes_content" />
+        <AssociationConnector Association="chattingonlyModel.FK_likes_user" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

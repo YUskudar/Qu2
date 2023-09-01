@@ -1,64 +1,155 @@
-﻿@model Qu2SM.Models.user
+﻿@model List<Qu2SM.Models.content>
 
-@{
-    ViewBag.Title = "Ayarlar";
-}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tüm İçerikler</title>
+    <style>
+        /* Ana stil */
+        body {
+            font-family: Arial, sans-serif;
+        }
 
-<h2>Ayarlar</h2>
+        /* İçerik konteyneri */
+        .content-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
 
-@using (Html.BeginForm("UpdateUser", "User", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-    @Html.AntiForgeryToken()
-    <div class="form-group">
-        @Html.LabelFor(model => model.usernickname, "Kullanıcı Adı", htmlAttributes: new { @class = "control-label" })
-        @Html.EditorFor(model => model.usernickname, new { htmlAttributes = new { @class = "form-control" } })
-        @Html.ValidationMessageFor(model => model.usernickname, "", new { @class = "text-danger" })
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.username, "Adı", htmlAttributes: new { @class = "control-label" })
-        @Html.EditorFor(model => model.username, new { htmlAttributes = new { @class = "form-control" } })
-        @Html.ValidationMessageFor(model => model.username, "", new { @class = "text-danger" })
+        /* İçerik liste stil */
+        .content-list {
+            background-color: #fff;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* İçerik kutusu stil */
+        .content-box {
+            padding: 20px;
+            border-bottom: 1px solid #e0e0e0;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Kullanıcı bilgileri */
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        /* Kullanıcı adı */
+        .username {
+            font-weight: bold;
+            font-size: 18px;
+            color: #333;
+            margin-right: 10px;
+        }
+
+        /* İçerik içeriği */
+        .content-info {
+            width: 80%;
+        }
+
+        /* İçerik tarih */
+        .content-date {
+            font-size: 14px;
+            color: #888;
+        }
+
+        /* Profil resmi */
+        .profile-picture {
+            max-width: 50px;
+        }
+    </style>
+</head>
+<body>
+    @Html.Partial("_AddContent")
+    <div class="content-container">
+        <h2>Tüm İçerikler</h2>
+        <div class="content-list">
+            @foreach (var contentItem in Model.OrderByDescending(c => c.date))
+            {
+                <div class="content-box">
+                    <div class="content-info">
+                        <div class="profile-picture">
+                            @if (contentItem.picture != null && contentItem.picture.Any() && contentItem.picture.First().picture1 != null && contentItem.picture.First().picture1.Length > 0)
+                            {
+                                <img src="data:image;base64,@Convert.ToBase64String(contentItem.picture.First().picture1)" alt="Resim" class="img-thumbnail" style="max-width: 500px;" />
+                            }
+                            @if (contentItem.video != null && contentItem.video.Any() && contentItem.video.First().video1 != null && contentItem.video.First().video1.Length > 0)
+                            {
+                                <video controls style="max-width: 500px;">
+                                    <source src="data:video/mp4;base64,@Convert.ToBase64String(contentItem.video.First().video1)" type="video/mp4">
+                                    Tarayıcınız video etiketini desteklemiyor.
+                                </video>
+                            }
+                        </div>
+                        <h3>@contentItem.title</h3>
+                        <p>@contentItem.message</p>
+
+                        <div class="content-date">
+                            Oluşturulma Tarihi: @contentItem.date
+                        </div>
+                        <div class="user-info">
+                            <form action="@Url.Action("UserDetails", "Home")" method="post" style="display: inline;">
+                                <input type="hidden" name="id" value="@contentItem.user.userid" />
+                                <button type="submit" class="user-button">@contentItem.user.usernickname</button>
+                            </form>
+                            <div class="profile-picture">
+                                @if (Model != null && @contentItem.user.userpp != null)
+                                {
+                                    <img src="data:image;base64,@Convert.ToBase64String(@contentItem.user.userpp)" alt="Profil Resmi" class="img-thumbnail" />
+                                }
+                                else
+                                {
+                                    <p>Mevcut profil resmi yok.</p>
+                                }
+                            </div>
+                        </div>
+
+                        @if (contentItem.comment != null && contentItem.comment.Any())
+                        {
+                            foreach (var commentItem in contentItem.comment)
+                            {
+                                <li>@commentItem.comment1</li>
+                                <ul>
+                                    <form action="@Url.Action("UserDetails", "Home")" method="post" style="display: inline;">
+                                        <input type="hidden" name="id" value="@commentItem.user.userid" />
+                                        <button type="submit" class="user-button">@commentItem.user.usernickname</button>
+                                    </form>
+                                </ul>
+                                <ul>
+                                    <div class="profile-picture">
+                                        @if (commentItem.user != null && commentItem.user.userpp != null)
+                                        {
+                                            <img src="data:image;base64,@Convert.ToBase64String(commentItem.user.userpp)" alt="Profil Resmi" class="img-thumbnail" />
+                                        }
+                                        else
+                                        {
+                                            <p>Mevcut profil resmi yok.</p>
+                                        }
+                                    </div>
+                                </ul>
+                            }
+                        }
+
+                    </div>
+                </div>
+                <form action="@Url.Action("AddComment", "Home")" method="post">
+                    @Html.Hidden("selectedContentId", contentItem.cid)
+                    <div class="form-group">
+                        <label for="commentText">Yorum Ekle:</label>
+                        <textarea name="comment.comment1" id="commentText" class="form-control" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Yorum Ekle</button>
+                </form>
+            }
+        </div>
     </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.usersurname, "Soyadı", htmlAttributes: new { @class = "control-label" })
-        @Html.EditorFor(model => model.usersurname, new { htmlAttributes = new { @class = "form-control" } })
-        @Html.ValidationMessageFor(model => model.usersurname, "", new { @class = "text-danger" })
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.userage, "Yaşı", htmlAttributes: new { @class = "control-label" })
-        @Html.EditorFor(model => model.userage, new { htmlAttributes = new { @class = "form-control" } })
-        @Html.ValidationMessageFor(model => model.userage, "", new { @class = "text-danger" })
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.usercity, "Konumu", htmlAttributes: new { @class = "control-label" })
-        @Html.EditorFor(model => model.usercity, new { htmlAttributes = new { @class = "form-control" } })
-        @Html.ValidationMessageFor(model => model.usercity, "", new { @class = "text-danger" })
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.userphone, "Numarası", htmlAttributes: new { @class = "control-label" })
-        @Html.EditorFor(model => model.userphone, new { htmlAttributes = new { @class = "form-control" } })
-        @Html.ValidationMessageFor(model => model.userphone, "", new { @class = "text-danger" })
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.userjob, "İşi", htmlAttributes: new { @class = "control-label" })
-        @Html.EditorFor(model => model.userjob, new { htmlAttributes = new { @class = "form-control" } })
-        @Html.ValidationMessageFor(model => model.userjob, "", new { @class = "text-danger" })
-    </div>
-    <div class="form-group">
-        <label for="imageFile">Yeni Profil Resmi:</label>
-        <input type="file" name="imageFile" id="imageFile" />
-    </div>
-    <div class="form-group">
-        <input type="submit" value="Bilgileri Güncelle" class="btn btn-primary" />
-    </div>
-}
-
-<div>
-    @ViewBag.ErrorMessage
-</div>
-
-<div>
-    @Html.ActionLink("Geri Dön", "Index")
-</div>
-
+</body>
+</html>
+beğeni kısmını burada contentin altında tut

@@ -1,0 +1,64 @@
+﻿@model Qu2SM.Models.user
+
+@{
+    ViewBag.Title = "Ayarlar";
+}
+
+<h2>Ayarlar</h2>
+
+@using (Html.BeginForm("UpdateUser", "User", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        @Html.LabelFor(model => model.usernickname, "Kullanıcı Adı", htmlAttributes: new { @class = "control-label" })
+        @Html.EditorFor(model => model.usernickname, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.usernickname, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.username, "Adı", htmlAttributes: new { @class = "control-label" })
+        @Html.EditorFor(model => model.username, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.username, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.usersurname, "Soyadı", htmlAttributes: new { @class = "control-label" })
+        @Html.EditorFor(model => model.usersurname, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.usersurname, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.userage, "Yaşı", htmlAttributes: new { @class = "control-label" })
+        @Html.EditorFor(model => model.userage, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.userage, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.usercity, "Konumu", htmlAttributes: new { @class = "control-label" })
+        @Html.EditorFor(model => model.usercity, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.usercity, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.userphone, "Numarası", htmlAttributes: new { @class = "control-label" })
+        @Html.EditorFor(model => model.userphone, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.userphone, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.userjob, "İşi", htmlAttributes: new { @class = "control-label" })
+        @Html.EditorFor(model => model.userjob, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.userjob, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        <label for="imageFile">Yeni Profil Resmi:</label>
+        <input type="file" name="imageFile" id="imageFile" />
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Bilgileri Güncelle" class="btn btn-primary" />
+    </div>
+}
+
+<div>
+    @ViewBag.ErrorMessage
+</div>
+
+<div>
+    @Html.ActionLink("Geri Dön", "Index")
+</div>
+

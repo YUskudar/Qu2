@@ -1,0 +1,23 @@
+﻿@model List<Qu2SM.Models.groupmessage>
+
+@{
+    ViewBag.Title = "Grup Sohbeti - " + ViewBag.GroupName;
+}
+
+<h2>Grup Sohbeti - @ViewBag.GroupName</h2>
+
+<div id="chat-box">
+    @foreach (var message in Model)
+    {
+        <div class="message">
+            <span class="message-timestamp">@message.date</span>
+            <span class="message-text">@message.gmessage</span>
+            <span class="message-sender">@message.user.usernickname</span>
+        </div>
+    }
+</div>
+
+<form id="message-form" action="@Url.Action("SendMessage", "Group", new { groupId = ViewBag.GroupId })" method="post">
+    <input type="text" id="messageText" name="messageText" class="form-control" required placeholder="Mesajınızı buraya yazın..." />
+    <button type="submit" class="btn btn-primary">Gönder</button>
+</form>

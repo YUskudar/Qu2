@@ -1,0 +1,40 @@
+﻿@model List<Qu2SM.Models.group>
+
+@{
+    ViewBag.Title = "Gruplarım";
+}
+
+<h2>Gruplarım</h2>
+
+@if (Model != null && Model.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Grup Adı</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var group in Model)
+            {
+                <tr>
+                    <td>@group.groupname</td>
+                    <td>
+                        @Html.ActionLink("Gruba Git", "GroupChat", "Group", new { groupId = group.gid }, null)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Gruplarınız bulunmamaktadır.</p>
+}
+
+<div>
+    @Html.ActionLink("Geri Dön", "Index", "Home")
+    @Html.ActionLink("Gruba katıl ya da oluştur", "CreateOrJoin")
+
+</div>

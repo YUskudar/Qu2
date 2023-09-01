@@ -1,0 +1,45 @@
+﻿﻿@model Qu2SM.Models.user
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <title>Login</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center align-items-center" style="height: 100vh;">
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h2>Giriş Formu</h2>
+                        @ViewBag.Mesaj
+                        @using (Html.BeginForm("Login", "Security", FormMethod.Post))
+                        {
+                            <div class="form-group">
+                                <input name="useremail" type="text" placeholder="Kullanıcı Email" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <input name="password" type="password" placeholder="Parola" class="form-control">
+                            </div>
+                            <input type="submit" class="btn btn-primary" value="Login">
+
+                            <input type="button" class="btn btn-success" value="Admin Girişi" onclick="location.href='@Url.Action("AdminLogin", "Security")'">
+
+                            <input type="button" class="btn btn-success" value="Üye Ol" onclick="location.href='@Url.Action("Register", "Security")'">
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+</html>

@@ -1,0 +1,23 @@
+﻿<form action="AddContent" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="title">Başlık</label>
+        <input type="text" id="title" name="title" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label for="message">Mesaj</label>
+        <input type="text" id="message" name="message" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label for="imageFile">Resim Yükle:</label>
+        <input type="file" name="imageFile" id="imageFile" accept=".jpg, .jpeg, .png, .gif" />
+    </div>
+
+    <div class="form-group">
+        <label for="videoFile">Video Yükle:</label>
+        <input type="file" name="videoFile" id="videoFile" accept=".mp4, .avi, .mov" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Gönder</button>
+</form>

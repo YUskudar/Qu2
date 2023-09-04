@@ -13,6 +13,7 @@
           <Property Name="adminemail" Type="varchar(max)" Nullable="false" />
           <Property Name="adminpasswd" Type="varchar(max)" Nullable="false" />
           <Property Name="adminnickname" Type="varchar(max)" Nullable="false" />
+          <Property Name="role" Type="int" />
         </EntityType>
         <EntityType Name="comment">
           <Key>
@@ -80,6 +81,13 @@
           <Property Name="picture" Type="varbinary(max)" />
           <Property Name="contentid" Type="int" />
         </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
             <PropertyRef Name="diagram_id" />
@@ -106,6 +114,7 @@
           <Property Name="password" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="userpp" Type="varbinary(max)" />
           <Property Name="userads" Type="nchar" MaxLength="10" />
+          <Property Name="role" Type="int" />
         </EntityType>
         <EntityType Name="usergroups">
           <Key>
@@ -123,6 +132,18 @@
           <Property Name="video1" Type="varbinary(max)" Nullable="false" />
           <Property Name="content_id" Type="int" Nullable="false" />
         </EntityType>
+        <Association Name="FK_admin_Roles">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="0..1" />
+          <End Role="admin" Type="Self.admin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="admin">
+              <PropertyRef Name="role" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_comment_content">
           <End Role="content" Type="Self.content" Multiplicity="0..1" />
           <End Role="comment" Type="Self.comment" Multiplicity="*" />
@@ -219,6 +240,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_user_Roles">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="0..1" />
+          <End Role="user" Type="Self.user" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="user">
+              <PropertyRef Name="role" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_usergroups_group">
           <End Role="group" Type="Self.group" Multiplicity="1" />
           <End Role="usergroups" Type="Self.usergroups" Multiplicity="*" />
@@ -264,10 +297,15 @@
           <EntitySet Name="likes" EntityType="Self.likes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="message" EntityType="Self.message" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="picture" EntityType="Self.picture" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="user" EntityType="Self.user" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="usergroups" EntityType="Self.usergroups" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="video" EntityType="Self.video" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_admin_Roles" Association="Self.FK_admin_Roles">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="admin" EntitySet="admin" />
+          </AssociationSet>
           <AssociationSet Name="FK_comment_content" Association="Self.FK_comment_content">
             <End Role="content" EntitySet="content" />
             <End Role="comment" EntitySet="comment" />
@@ -300,6 +338,10 @@
             <End Role="content" EntitySet="content" />
             <End Role="picture" EntitySet="picture" />
           </AssociationSet>
+          <AssociationSet Name="FK_user_Roles" Association="Self.FK_user_Roles">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="user" EntitySet="user" />
+          </AssociationSet>
           <AssociationSet Name="FK_usergroups_group" Association="Self.FK_usergroups_group">
             <End Role="group" EntitySet="group" />
             <End Role="usergroups" EntitySet="usergroups" />
@@ -325,6 +367,8 @@
           <Property Name="adminemail" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="adminpasswd" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="adminnickname" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="role" Type="Int32" />
+          <NavigationProperty Name="Roles" Relationship="chattingonlyModel.FK_admin_Roles" FromRole="admin" ToRole="Roles" />
         </EntityType>
         <EntityType Name="comment">
           <Key>
@@ -416,6 +460,8 @@
           <NavigationProperty Name="groupmessage" Relationship="Self.FK_groupmessage_user" FromRole="user" ToRole="groupmessage" />
           <NavigationProperty Name="usergroups" Relationship="Self.FK_usergroups_user" FromRole="user" ToRole="usergroups" />
           <NavigationProperty Name="likes" Relationship="chattingonlyModel.FK_likes_user" FromRole="user" ToRole="likes" />
+          <Property Name="role" Type="Int32" />
+          <NavigationProperty Name="Roles" Relationship="chattingonlyModel.FK_user_Roles" FromRole="user" ToRole="Roles" />
         </EntityType>
         <EntityType Name="usergroups">
           <Key>
@@ -601,6 +647,15 @@
             <End Role="likes" EntitySet="likes" />
           </AssociationSet>
           <EntitySet Name="message" EntityType="chattingonlyModel.message" />
+          <EntitySet Name="Roles" EntityType="chattingonlyModel.Roles" />
+          <AssociationSet Name="FK_admin_Roles" Association="chattingonlyModel.FK_admin_Roles">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="admin" EntitySet="admin" />
+          </AssociationSet>
+          <AssociationSet Name="FK_user_Roles" Association="chattingonlyModel.FK_user_Roles">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="user" EntitySet="user" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="likes">
           <Key>
@@ -647,6 +702,39 @@
           <Property Name="message1" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="date" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
         </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="admin" Relationship="chattingonlyModel.FK_admin_Roles" FromRole="Roles" ToRole="admin" />
+          <NavigationProperty Name="user" Relationship="chattingonlyModel.FK_user_Roles" FromRole="Roles" ToRole="user" />
+        </EntityType>
+        <Association Name="FK_admin_Roles">
+          <End Type="chattingonlyModel.Roles" Role="Roles" Multiplicity="0..1" />
+          <End Type="chattingonlyModel.admin" Role="admin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="admin">
+              <PropertyRef Name="role" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_user_Roles">
+          <End Type="chattingonlyModel.Roles" Role="Roles" Multiplicity="0..1" />
+          <End Type="chattingonlyModel.user" Role="user" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="user">
+              <PropertyRef Name="role" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -656,6 +744,7 @@
           <EntitySetMapping Name="admin">
             <EntityTypeMapping TypeName="chattingonlyModel.admin">
               <MappingFragment StoreEntitySet="admin">
+                <ScalarProperty Name="role" ColumnName="role" />
                 <ScalarProperty Name="adminid" ColumnName="adminid" />
                 <ScalarProperty Name="adminemail" ColumnName="adminemail" />
                 <ScalarProperty Name="adminpasswd" ColumnName="adminpasswd" />
@@ -729,6 +818,7 @@
           <EntitySetMapping Name="user">
             <EntityTypeMapping TypeName="chattingonlyModel.user">
               <MappingFragment StoreEntitySet="user">
+                <ScalarProperty Name="role" ColumnName="role" />
                 <ScalarProperty Name="userid" ColumnName="userid" />
                 <ScalarProperty Name="useremail" ColumnName="useremail" />
                 <ScalarProperty Name="usernickname" ColumnName="usernickname" />
@@ -780,6 +870,14 @@
                 <ScalarProperty Name="receiveid" ColumnName="receiveid" />
                 <ScalarProperty Name="senderid" ColumnName="senderid" />
                 <ScalarProperty Name="mid" ColumnName="mid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="chattingonlyModel.Roles">
+              <MappingFragment StoreEntitySet="Roles">
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

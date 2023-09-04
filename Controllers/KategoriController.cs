@@ -7,6 +7,8 @@ using System.Web.Mvc;
 
 namespace Qu2SM.Controllers
 {
+
+    [Authorize(Roles = "Admin")]
     public class KategoriController : Controller
     {
         private chattingonlyEntities _context;

@@ -36,6 +36,7 @@ namespace Qu2SM.Models
         public string password { get; set; }
         public byte[] userpp { get; set; }
         public string userads { get; set; }
+        public Nullable<int> role { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<comment> comment { get; set; }
@@ -47,5 +48,6 @@ namespace Qu2SM.Models
         public virtual ICollection<usergroups> usergroups { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<likes> likes { get; set; }
+        public virtual Roles Roles { get; set; }
     }
 }

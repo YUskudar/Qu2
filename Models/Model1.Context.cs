@@ -36,5 +36,6 @@ namespace Qu2SM.Models
         public virtual DbSet<usergroups> usergroups { get; set; }
         public virtual DbSet<video> video { get; set; }
         public virtual DbSet<likes> likes { get; set; }
+        public virtual DbSet<message> message { get; set; }
     }
 }

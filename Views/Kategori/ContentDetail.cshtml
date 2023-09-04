@@ -1,0 +1,64 @@
+﻿@model Qu2SM.Models.content
+
+@{
+    ViewBag.Title = "ContentDetail";
+}
+@Html.Partial("_AdminPanel")
+
+<div class="container">
+    <h2>İçerik Detayı</h2>
+
+    <div class="row">
+        <div class="col-md-8">
+            <h3>@Model.title</h3>
+            <p>@Model.message</p>
+        </div>
+    </div>
+
+    @if (Model.picture != null && Model.picture.Any() && Model.picture.First().picture1 != null && Model.picture.First().picture1.Length > 0)
+    {
+        <div class="row">
+            <div class="col-md-8">
+                <h4>Resim</h4>
+                <img src="data:image;base64,@Convert.ToBase64String(Model.picture.First().picture1)" alt="Resim" class="img-thumbnail" style="max-width: 100%;" />
+            </div>
+        </div>
+    }
+
+    @if (Model.video != null && Model.video.Any() && Model.video.First().video1 != null && Model.video.First().video1.Length > 0)
+    {
+        <div class="row">
+            <div class="col-md-8">
+                <h4>Video</h4>
+                <video controls style="max-width: 100%;">
+                    <source src="data:video/mp4;base64,@Convert.ToBase64String(Model.video.First().video1)" type="video/mp4">
+                    Tarayıcınız video etiketini desteklemiyor.
+                </video>
+            </div>
+        </div>
+    }
+    @if (Model.comment != null && Model.comment.Any())
+    {
+        <div class="comments-container">
+            @foreach (var commentItem in Model.comment)
+            {
+                <div class="comment-box">
+                    
+                    <div class="comment-content">
+                        <p>@commentItem.comment1</p>
+                    </div>
+                    <form action="@Url.Action("DeleteComment", "Home")" method="post" style="display: inline;">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" value="@commentItem.coid" />
+                        <button type="submit" class="delete-button">Sil</button>
+                    </form>
+                </div>
+            }
+        </div>
+    }
+
+
+
+
+</div>
+

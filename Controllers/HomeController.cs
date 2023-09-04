@@ -41,7 +41,32 @@ namespace Qu2SM.Controllers
 
             return View(newComment);
         }
+        [HttpPost]
+        public ActionResult AddComment(comment comment, int? selectedContentId)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    comment.date = DateTime.Now;
 
+                    string userId = User.Identity.Name;
+                    comment.user = db.user.FirstOrDefault(u => u.useremail == userId);
+
+                    comment.content_id = selectedContentId;
+
+                    db.comment.Add(comment);
+                    db.SaveChanges();
+                }
+
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = "Yorum eklerken bir hata oluştu: " + ex.Message;
+                return RedirectToAction("Index");
+            }
+        }
         [HttpPost]
         public ActionResult AddContent(content content, HttpPostedFileBase imageFile, HttpPostedFileBase videoFile) //Bu kısım aslında partial view olarak tasarlandı kullanıc anasayfada da içerik üretebilicek.
         {
@@ -164,6 +189,39 @@ namespace Qu2SM.Controllers
             }
 
             return RedirectToAction("Index", "User");
+        }
+        [HttpPost]
+        public ActionResult DeleteComment(int commentId)
+        {
+            try
+            {
+                var comment = db.comment.FirstOrDefault(c => c.coid == commentId);
+
+                if (comment == null)
+                {
+                    return RedirectToAction("NotFound", "Error");
+                }
+
+                string userId = User.Identity.Name;
+
+                if (comment.user.useremail == userId || comment.content.user.useremail == userId)
+                {
+                    db.comment.Remove(comment);
+                    db.SaveChanges();
+
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    ViewBag.ErrorMessage = "Bu yorumu silme izniniz yok.";
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = "Yorum silinirken bir hata oluştu: " + ex.Message;
+                return RedirectToAction("Index");
+            }
         }
 
     }

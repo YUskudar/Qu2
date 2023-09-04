@@ -1,10 +1,11 @@
 ﻿@model List<Qu2SM.Models.groupmessage>
 
 @{
-    ViewBag.Title = "Grup Sohbeti - " + ViewBag.GroupName;
+    ViewBag.Title = "Grup Sohbeti - " + ViewBag.GroupName + "Grup Davet Kodu -" + ViewBag.GroupCode;
 }
 
-<h2>Grup Sohbeti - @ViewBag.GroupName</h2>
+<h2>Grup Sohbeti - @ViewBag.GroupName | Grup Davet Kodu @ViewBag.groupdavet</h2>
+<h3>@ViewBag.Groupdescp</h3>
 
 <div id="chat-box">
     @foreach (var message in Model)

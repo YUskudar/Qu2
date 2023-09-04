@@ -1,0 +1,43 @@
+﻿@model List<Qu2SM.Models.user>
+
+@{
+    ViewBag.Title = "Kullanıcılar";
+}
+@Html.Partial("_AdminPanel")
+
+<h2>Kullanıcılar</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Kullanıcı ID</th>
+            <th>Email</th>
+            <th>Kullanıcı Adı</th>
+            <th>Kullanıcı Resmi </th>
+            <th>İşlemler</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.userid</td>
+                <td>@user.useremail</td>
+                <td>@user.usernickname</td>
+                <td>
+                    @if (user.userpp != null)
+                    {
+                        <img src="data:image/jpeg;base64,@Convert.ToBase64String(user.userpp)" style="max-width: 50px;" />
+                    }
+                    else
+                    {
+                        <span>Profil Resmi Yok</span>
+                    }
+                </td>
+                <td>
+                    @Html.ActionLink("Sil", "DeleteUser", new { id = user.userid })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

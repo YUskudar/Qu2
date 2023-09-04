@@ -1,0 +1,30 @@
+﻿@model List<Qu2SM.Models.usergroups>
+@{
+    ViewBag.Title = "Groups";
+}
+
+@Html.Partial("_AdminPanel")
+
+<h2>Gruplar ve Üyeleri</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Grup ID</th>
+            <th>Grup Adı</th>
+            <th>Üye ID</th>
+            <th>Üye Adı</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var userGroup in Model.OrderBy(ug => ug.group.gid))
+        {
+            <tr>
+                <td>@userGroup.group.gid</td>
+                <td>@userGroup.group.groupname</td>
+                <td>@userGroup.user.userid</td>
+                <td>@userGroup.user.usernickname</td>
+            </tr>
+        }
+    </tbody>
+</table>

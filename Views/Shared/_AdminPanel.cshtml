@@ -1,0 +1,14 @@
+﻿
+@{
+    ViewBag.Title = "_AdminPanel";
+}
+
+<h2>_AdminPanel</h2>
+
+<div class="sidebar">
+    <ul>
+        @Html.ActionLink("Kullanıcılar", "Users", "Kategori", new { area = "" }, new { @class = "navbar-brand" })
+        @Html.ActionLink("İçerikler", "Contents", "Kategori", new { area = "" }, new { @class = "navbar-brand" })
+        @Html.ActionLink("Gruplar", "Groups", "Kategori", new { area = "" }, new { @class = "navbar-brand" })
+    </ul>
+</div>

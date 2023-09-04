@@ -114,6 +114,9 @@ namespace Qu2SM.Controllers
             {
                 var group = db.group.FirstOrDefault(g => g.gid == groupId);
                 ViewBag.GroupName = group.groupname;
+                ViewBag.Groupdescp = group.groupdescription;
+                ViewBag.Groupdavet = group.groupkatılım;
+
                 ViewBag.GroupId = groupId;
 
                 var groupMessages = db.groupmessage//tarihe göre sıralama

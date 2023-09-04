@@ -27,6 +27,7 @@
         <EntityTypeShape EntityType="chattingonlyModel.likes" Width="1.5" PointX="8.25" PointY="8.5" />
         <AssociationConnector Association="chattingonlyModel.FK_likes_content" />
         <AssociationConnector Association="chattingonlyModel.FK_likes_user" />
+        <EntityTypeShape EntityType="chattingonlyModel.message" Width="1.5" PointX="7.375" PointY="3.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

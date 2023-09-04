@@ -29,7 +29,7 @@
             <PropertyRef Name="cid" />
           </Key>
           <Property Name="cid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="title" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="title" Type="varchar(max)" />
           <Property Name="message" Type="nvarchar(max)" Nullable="false" />
           <Property Name="user_id" Type="int" Nullable="false" />
           <Property Name="date" Type="date" />
@@ -61,6 +61,16 @@
           <Property Name="clikes" Type="int" />
           <Property Name="user_id" Type="int" Nullable="false" />
           <Property Name="content_id" Type="int" />
+        </EntityType>
+        <EntityType Name="message">
+          <Key>
+            <PropertyRef Name="mid" />
+          </Key>
+          <Property Name="mid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="senderid" Type="int" Nullable="false" />
+          <Property Name="receiveid" Type="int" Nullable="false" />
+          <Property Name="message" Type="varchar(max)" Nullable="false" />
+          <Property Name="date" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
         </EntityType>
         <EntityType Name="picture">
           <Key>
@@ -252,6 +262,7 @@
           <EntitySet Name="group" EntityType="Self.group" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="groupmessage" EntityType="Self.groupmessage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="likes" EntityType="Self.likes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="message" EntityType="Self.message" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="picture" EntityType="Self.picture" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="user" EntityType="Self.user" Schema="dbo" store:Type="Tables" />
@@ -332,7 +343,7 @@
             <PropertyRef Name="cid" />
           </Key>
           <Property Name="cid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="title" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="message" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="user_id" Type="Int32" Nullable="false" />
           <Property Name="date" Type="DateTime" Precision="0" />
@@ -589,6 +600,7 @@
             <End Role="user" EntitySet="user" />
             <End Role="likes" EntitySet="likes" />
           </AssociationSet>
+          <EntitySet Name="message" EntityType="chattingonlyModel.message" />
         </EntityContainer>
         <EntityType Name="likes">
           <Key>
@@ -625,6 +637,16 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="message">
+          <Key>
+            <PropertyRef Name="mid" />
+          </Key>
+          <Property Name="mid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="senderid" Type="Int32" Nullable="false" />
+          <Property Name="receiveid" Type="Int32" Nullable="false" />
+          <Property Name="message1" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="date" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -747,6 +769,17 @@
                 <ScalarProperty Name="user_id" ColumnName="user_id" />
                 <ScalarProperty Name="clikes" ColumnName="clikes" />
                 <ScalarProperty Name="lid" ColumnName="lid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="message">
+            <EntityTypeMapping TypeName="chattingonlyModel.message">
+              <MappingFragment StoreEntitySet="message">
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="message1" ColumnName="message" />
+                <ScalarProperty Name="receiveid" ColumnName="receiveid" />
+                <ScalarProperty Name="senderid" ColumnName="senderid" />
+                <ScalarProperty Name="mid" ColumnName="mid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

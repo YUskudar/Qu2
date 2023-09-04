@@ -1,0 +1,35 @@
+﻿@model List<Qu2SM.Models.content>
+
+@{
+    ViewBag.Title = "İçerikler";
+}
+@Html.Partial("_AdminPanel")
+
+<h2>İçerikler</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>İçerik ID</th>
+            <th>Başlık</th>
+            <th>İçerik Tipi</th>
+            <th>İşlemler</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var content in Model)
+        {
+            <tr>
+                <td>@content.cid</td>
+                <td>@content.title</td>
+                <td>
+                     <a href="@Url.Action("ContentDetail", "Kategori", new { id = content.cid })">Detay</a>
+                </td>
+                <td>
+                    <a href="@Url.Action("DeleteContent", "Kategori")">Sil</a>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

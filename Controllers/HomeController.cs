@@ -18,9 +18,23 @@ namespace Qu2SM.Controllers
             ViewBag.UserName = userName;
 
             List<content> allContents = db.content.ToList();
+            
 
             return View(allContents);
         }
+        [HttpPost]
+        public ActionResult contentViewCount(int contentId)
+        {
+            var content = db.content.FirstOrDefault(c => c.cid == contentId);
+            if (content != null)
+            {
+                content.viewCount++;
+                db.SaveChanges();
+                return Json(new { success = true, newViewCount = content.viewCount });
+            }
+            return Json(new { success = false });
+        }
+
         public ActionResult UserDetails(int id) //Contenti Atan kullanıcının detaylarını görebilir.
         {
             var user = db.user.FirstOrDefault(u => u.userid == id);

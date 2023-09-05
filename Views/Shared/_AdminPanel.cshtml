@@ -7,8 +7,13 @@
 
 <div class="sidebar">
     <ul>
+        @Html.ActionLink("Qu2", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
         @Html.ActionLink("Kullanıcılar", "Users", "Kategori", new { area = "" }, new { @class = "navbar-brand" })
         @Html.ActionLink("İçerikler", "Contents", "Kategori", new { area = "" }, new { @class = "navbar-brand" })
         @Html.ActionLink("Gruplar", "Groups", "Kategori", new { area = "" }, new { @class = "navbar-brand" })
+    </ul>
+    <ul>
+        @Html.ActionLink("Çıkış", "Logout", "Security", new { area = "" }, new { @class = "navbar-brand" })
+
     </ul>
 </div>

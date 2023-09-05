@@ -44,7 +44,6 @@
 </head>
 <body>
     <div class="sidebar">
-        <!-- Sidebar içeriği -->
         @Html.ActionLink("Qu2", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
         @Html.ActionLink("Profil", "Index", "User", new { area = "" }, new { @class = "nav-link" })
         @Html.ActionLink("Sohbet", "MyGroups", "Group", new { area = "" }, new { @class = "nav-link" })
@@ -55,7 +54,6 @@
     </div>
 
     <div class="content">
-        <!-- İçerik alanı -->
         @RenderBody()
     </div>
 

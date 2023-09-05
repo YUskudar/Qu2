@@ -34,6 +34,7 @@
           <Property Name="message" Type="nvarchar(max)" Nullable="false" />
           <Property Name="user_id" Type="int" Nullable="false" />
           <Property Name="date" Type="date" />
+          <Property Name="viewCount" Type="int" />
         </EntityType>
         <EntityType Name="group">
           <Key>
@@ -115,6 +116,7 @@
           <Property Name="userpp" Type="varbinary(max)" />
           <Property Name="userads" Type="nchar" MaxLength="10" />
           <Property Name="role" Type="int" />
+          <Property Name="roletype" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="usergroups">
           <Key>
@@ -396,6 +398,7 @@
           <NavigationProperty Name="picture" Relationship="Self.FK_picture_content" FromRole="content" ToRole="picture" />
           <NavigationProperty Name="video" Relationship="Self.FK_video_content" FromRole="content" ToRole="video" />
           <NavigationProperty Name="likes" Relationship="chattingonlyModel.FK_likes_content" FromRole="content" ToRole="likes" />
+          <Property Name="viewCount" Type="Int32" />
         </EntityType>
         <EntityType Name="group">
           <Key>
@@ -462,6 +465,7 @@
           <NavigationProperty Name="likes" Relationship="chattingonlyModel.FK_likes_user" FromRole="user" ToRole="likes" />
           <Property Name="role" Type="Int32" />
           <NavigationProperty Name="Roles" Relationship="chattingonlyModel.FK_user_Roles" FromRole="user" ToRole="Roles" />
+          <Property Name="roletype" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="usergroups">
           <Key>
@@ -766,6 +770,7 @@
           <EntitySetMapping Name="content">
             <EntityTypeMapping TypeName="chattingonlyModel.content">
               <MappingFragment StoreEntitySet="content">
+                <ScalarProperty Name="viewCount" ColumnName="viewCount" />
                 <ScalarProperty Name="cid" ColumnName="cid" />
                 <ScalarProperty Name="title" ColumnName="title" />
                 <ScalarProperty Name="message" ColumnName="message" />
@@ -818,6 +823,7 @@
           <EntitySetMapping Name="user">
             <EntityTypeMapping TypeName="chattingonlyModel.user">
               <MappingFragment StoreEntitySet="user">
+                <ScalarProperty Name="roletype" ColumnName="roletype" />
                 <ScalarProperty Name="role" ColumnName="role" />
                 <ScalarProperty Name="userid" ColumnName="userid" />
                 <ScalarProperty Name="useremail" ColumnName="useremail" />

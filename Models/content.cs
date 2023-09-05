@@ -28,6 +28,7 @@ namespace Qu2SM.Models
         public string message { get; set; }
         public int user_id { get; set; }
         public Nullable<System.DateTime> date { get; set; }
+        public Nullable<int> viewCount { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<comment> comment { get; set; }

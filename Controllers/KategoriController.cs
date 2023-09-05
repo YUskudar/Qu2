@@ -8,7 +8,19 @@ using System.Web.Mvc;
 namespace Qu2SM.Controllers
 {
 
-    [Authorize(Roles = "Admin")]
+    public class AdminAuthorizeAttribute : AuthorizeAttribute
+    {
+        protected override bool AuthorizeCore(HttpContextBase httpContext)
+        {
+            if (httpContext.Session["AdminLoggedIn"] != null && (bool)httpContext.Session["AdminLoggedIn"])
+            {
+                return true; 
+            }
+            return false;
+        }
+    }
+    [AdminAuthorize]
+
     public class KategoriController : Controller
     {
         private chattingonlyEntities _context;
@@ -20,7 +32,12 @@ namespace Qu2SM.Controllers
 
         public ActionResult Index()
         {
-            return View();
+            if (User.Identity.IsAuthenticated)
+            {
+                return View();
+            }
+
+            return RedirectToAction("Unauthorized", "Error");
         }
 
         public ActionResult Users()

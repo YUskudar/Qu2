@@ -7,26 +7,22 @@
     <script src="~/Scripts/myscripts.js"></script>
 
     <style>
-        /* Ana stil */
         body {
             font-family: Arial, sans-serif;
         }
 
-        /* İçerik konteyneri */
         .content-container {
             max-width: 400px;
             margin: 0 auto;
             padding: 20px;
         }
 
-        /* İçerik liste stil */
         .content-list {
             background-color: #fff;
             border-radius: 4px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
-        /* İçerik kutusu stil */
         .content-box {
             padding: 20px;
             border-bottom: 1px solid #e0e0e0;
@@ -36,13 +32,11 @@
             align-items: center;
         }
 
-        /* Kullanıcı bilgileri */
         .user-info {
             display: flex;
             align-items: center;
         }
 
-        /* Kullanıcı adı */
         .username {
             font-weight: bold;
             font-size: 18px;
@@ -50,22 +44,19 @@
             margin-right: 10px;
         }
 
-        /* İçerik içeriği */
         .content-info {
             width: 80%;
         }
 
-        /* İçerik tarih */
         .content-date {
             font-size: 14px;
             color: #888;
         }
 
-        /* Profil resmi */
         .profile-picture {
             max-width: 30px;
         }
-        /* Sohbet sekmesi stilini belirtin */
+
         .chat-tab {
             position: fixed;
             bottom: 0;
@@ -75,15 +66,15 @@
             padding: 10px;
             border-radius: 5px 5px 0 0;
             cursor: pointer;
-            transition: left 0.3s ease; /* Sol pozisyon değişimini ekleyin */
+            transition: left 0.3s ease;
         }
 
-        /* Sohbet sekmesini kapalı konumda gizle */
+
         .chat-tab-closed {
-            left: -50px; /* Başlangıçta sol dışarıda başlayacak */
+            left: -50px;
         }
 
-        /* Sohbet paneli stilini belirtin */
+
         .chat-panel {
             position: fixed;
             bottom: 0;
@@ -95,14 +86,12 @@
             border-radius: 0 0 5px 5px;
             padding: 10px;
             z-index: 999;
-            transition: left 0.3s ease; /* Sol pozisyon değişimini ekleyin */
+            transition: left 0.3s ease;
         }
 
-        /* Sohbet panelini kapalı konumda gizle */
         .chat-panel-hidden {
-            left: -350px; /* Başlangıçta sol dışarıda başlayacak */
+            left: -350px;
         }
-
     </style>
 </head>
 <body>
@@ -129,6 +118,7 @@
                         </div>
                         <h3>@contentItem.title</h3>
                         <p>@contentItem.message</p>
+                        <p>Görüntülenme Sayısı: @contentItem.viewCount</p>
 
                         <div class="content-date">
                             Oluşturulma Tarihi: @contentItem.date
@@ -176,10 +166,7 @@
                                             {
                                                 <img src="data:image;base64,@Convert.ToBase64String(commentItem.user.userpp)" alt="Profil Resmi" class="img-thumbnail" />
                                             }
-                                            else
-                                            {
-                                                <p>Mevcut profil resmi yok.</p>
-                                            }
+
                                         </div>
                                     </div>
                                 }
@@ -202,13 +189,6 @@
 
         </div>
     </div>
-    <div id="chat-tab" class="chat-tab-closed">
-        Sohbet
-    </div>
-    <div id="chat-panel" class="chat-panel-hidden">
-        <!-- Sohbet içeriği buraya gelecek -->
-    </div>
-
-
 </body>
 </html>
+<script src="~/Scripts/contentViewCount.js"></script>

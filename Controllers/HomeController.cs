@@ -1,10 +1,13 @@
 ﻿using Qu2SM.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
+using WebGrease;
 
 
 namespace Qu2SM.Controllers
@@ -18,21 +21,30 @@ namespace Qu2SM.Controllers
             ViewBag.UserName = userName;
 
             List<content> allContents = db.content.ToList();
-            
 
-            return View(allContents);
-        }
-        [HttpPost]
-        public ActionResult contentViewCount(int contentId)
-        {
-            var content = db.content.FirstOrDefault(c => c.cid == contentId);
-            if (content != null)
+            List<string> likeButtonHtmlList = new List<string>();
+
+            foreach (var content in allContents)
+            {
+                var contentID = content.cid;
+                var likebtnID = "likebtn_" + contentID;
+
+                var likeButtonHtml = $@"<div class=""content"" id=""{contentID}"">
+            <span class=""likebtn-wrapper"" data-theme=""direct"" data-white_label=""true"" data-identifier=""{likebtnID}"" data-show_like_label=""false"" data-counter_show=""false"" data-popup_disabled=""true"" data-share_enabled=""false"" data-share_size=""large""></span>
+        </div>";
+                likeButtonHtmlList.Add(likeButtonHtml);
+            }
+
+            foreach (var content in allContents)
             {
                 content.viewCount++;
-                db.SaveChanges();
-                return Json(new { success = true, newViewCount = content.viewCount });
             }
-            return Json(new { success = false });
+
+            db.SaveChanges();
+
+            ViewBag.LikeButtonHtmlList = likeButtonHtmlList;
+
+            return View(allContents);
         }
 
         public ActionResult UserDetails(int id) //Contenti Atan kullanıcının detaylarını görebilir.

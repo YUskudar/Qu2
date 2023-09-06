@@ -4,8 +4,8 @@
 <html>
 <head>
     <title>Ansayfa</title>
-    <script src="~/Scripts/myscripts.js"></script>
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -120,9 +120,46 @@
                         <p>@contentItem.message</p>
                         <p>Görüntülenme Sayısı: @contentItem.viewCount</p>
 
+                        <script>
+                            <script>
+                                document.addEventListener("DOMContentLoaded", function () {
+                                var posts = document.querySelectorAll('.content-box');
+
+                                posts.forEach(function (post) {
+                                    var postViews = 0;
+
+                                var postViewsElement = post.querySelector('.post-views');
+
+                                post.addEventListener('click', function () {
+                                    postViews++;
+
+                                postViewsElement.textContent = postViews + ' görüntülenme';
+
+                                    });
+                                });
+                            });
+                        </script>
+
+                        </script>
+                        <script type='text/javascript' src='https://www.freevisitorcounters.com/auth.php?id=2aa1896378583b440d6a5f41dd3e3b6f23971d94'></script>
+                        <script type="text/javascript" src="https://www.freevisitorcounters.com/en/home/counter/1070773/t/3"></script>
+
                         <div class="content-date">
                             Oluşturulma Tarihi: @contentItem.date
                         </div>
+                        <span class="likebtn-wrapper" data-theme="direct" data-white_label="true" data-identifier="likebtn_@contentItem.cid" data-show_like_label="false" data-counter_show="true" data-popup_disabled="true" data-share_enabled="false" data-share_size="large"></span>
+                        <script>
+                            (function (d, e, s) {
+                                                    if (d.getElementById("likebtn_wjs")) return;
+                            a = d.createElement(e);
+                            m = d.getElementsByTagName(e)[0];
+                            a.async = 1;
+                            a.id = "likebtn_wjs";
+                            a.src = s;
+                            m.parentNode.insertBefore(a, m);
+                                                })(document, "script", "//w.likebtn.com/js/w/widget.js");
+                        </script>
+
                         <div class="user-info">
                             <form action="@Url.Action("UserDetails", "Home")" method="post" style="display: inline;">
                                 <input type="hidden" name="id" value="@contentItem.user.userid" />
@@ -189,6 +226,13 @@
 
         </div>
     </div>
+    
+
+
+
 </body>
 </html>
-<script src="~/Scripts/contentViewCount.js"></script>
+
+
+
+

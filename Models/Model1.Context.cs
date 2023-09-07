@@ -7,16 +7,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Qu2SM.Models
+namespace chatting.Models
 {
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class chattingonlyEntities : DbContext
+    public partial class chattingonlyEntities1 : DbContext
     {
-        public chattingonlyEntities()
-            : base("name=chattingonlyEntities")
+        public chattingonlyEntities1()
+            : base("name=chattingonlyEntities1")
         {
         }
     
@@ -25,18 +25,9 @@ namespace Qu2SM.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<admin> admin { get; set; }
-        public virtual DbSet<comment> comment { get; set; }
-        public virtual DbSet<content> content { get; set; }
-        public virtual DbSet<group> group { get; set; }
-        public virtual DbSet<groupmessage> groupmessage { get; set; }
-        public virtual DbSet<picture> picture { get; set; }
-        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<user> user { get; set; }
-        public virtual DbSet<usergroups> usergroups { get; set; }
-        public virtual DbSet<video> video { get; set; }
-        public virtual DbSet<likes> likes { get; set; }
-        public virtual DbSet<message> message { get; set; }
-        public virtual DbSet<Roles> Roles { get; set; }
+        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
+        public virtual DbSet<content> content { get; set; }
+        public virtual DbSet<picture> picture { get; set; }
     }
 }

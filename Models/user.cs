@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Qu2SM.Models
+namespace chatting.Models
 {
     using System;
     using System.Collections.Generic;
@@ -17,11 +17,7 @@ namespace Qu2SM.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public user()
         {
-            this.comment = new HashSet<comment>();
             this.content = new HashSet<content>();
-            this.groupmessage = new HashSet<groupmessage>();
-            this.usergroups = new HashSet<usergroups>();
-            this.likes = new HashSet<likes>();
         }
     
         public int userid { get; set; }
@@ -35,20 +31,9 @@ namespace Qu2SM.Models
         public string userjob { get; set; }
         public string password { get; set; }
         public byte[] userpp { get; set; }
-        public string userads { get; set; }
-        public Nullable<int> role { get; set; }
-        public string roletype { get; set; }
+        public string userrole { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<comment> comment { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<content> content { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<groupmessage> groupmessage { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<usergroups> usergroups { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<likes> likes { get; set; }
-        public virtual Roles Roles { get; set; }
     }
 }

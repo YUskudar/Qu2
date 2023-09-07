@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Qu2SM.Models
+namespace chatting.Models
 {
     using System;
     using System.Collections.Generic;
@@ -17,9 +17,9 @@ namespace Qu2SM.Models
         public int coid { get; set; }
         public string comment1 { get; set; }
         public System.DateTime date { get; set; }
+        public int content_id { get; set; }
         public int user_id { get; set; }
-        public Nullable<int> content_id { get; set; }
-    
+
         public virtual content content { get; set; }
         public virtual user user { get; set; }
     }

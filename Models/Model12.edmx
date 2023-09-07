@@ -1,0 +1,696 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="chattingonlyModel1.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="admin">
+          <Key>
+            <PropertyRef Name="adminid" />
+          </Key>
+          <Property Name="adminid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="adminemail" Type="varchar(max)" Nullable="false" />
+          <Property Name="adminpasswd" Type="varchar(max)" Nullable="false" />
+          <Property Name="adminnickname" Type="varchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="comment">
+          <Key>
+            <PropertyRef Name="coid" />
+          </Key>
+          <Property Name="coid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="comment1" Type="varchar(max)" Nullable="false" />
+          <Property Name="date" Type="date" Nullable="false" />
+          <Property Name="user_id" Type="int" Nullable="false" />
+          <Property Name="content_id" Type="int" />
+        </EntityType>
+        <EntityType Name="content">
+          <Key>
+            <PropertyRef Name="cid" />
+          </Key>
+          <Property Name="cid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="title" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="message" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="user_id" Type="int" Nullable="false" />
+          <Property Name="date" Type="date" />
+        </EntityType>
+        <EntityType Name="group">
+          <Key>
+            <PropertyRef Name="gid" />
+          </Key>
+          <Property Name="gid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="groupkatılım" Type="int" Nullable="false" />
+          <Property Name="groupname" Type="varchar(max)" />
+          <Property Name="groupdescription" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="groupmessage">
+          <Key>
+            <PropertyRef Name="gmeid" />
+          </Key>
+          <Property Name="gmessage" Type="varchar(max)" />
+          <Property Name="date" Type="date" />
+          <Property Name="group_id" Type="int" />
+          <Property Name="user_id" Type="int" />
+          <Property Name="gmeid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="picture">
+          <Key>
+            <PropertyRef Name="pid" />
+          </Key>
+          <Property Name="pid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="picture" Type="varbinary(max)" />
+          <Property Name="contentid" Type="int" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="userid" />
+          </Key>
+          <Property Name="userid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="useremail" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="usernickname" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="username" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="usersurname" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="userage" Type="int" />
+          <Property Name="usercity" Type="nvarchar" MaxLength="50" />
+          <Property Name="userphone" Type="int" />
+          <Property Name="userjob" Type="nvarchar" MaxLength="50" />
+          <Property Name="password" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="userpp" Type="varbinary(max)" />
+          <Property Name="userads" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="usergroups">
+          <Key>
+            <PropertyRef Name="ugid" />
+          </Key>
+          <Property Name="ugid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="user_id" Type="int" Nullable="false" />
+          <Property Name="group_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="video">
+          <Key>
+            <PropertyRef Name="vid" />
+          </Key>
+          <Property Name="vid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="video1" Type="varbinary(max)" Nullable="false" />
+          <Property Name="content_id" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_comment_content">
+          <End Role="content" Type="Self.content" Multiplicity="0..1" />
+          <End Role="comment" Type="Self.comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="content">
+              <PropertyRef Name="cid" />
+            </Principal>
+            <Dependent Role="comment">
+              <PropertyRef Name="content_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_comment_user">
+          <End Role="user" Type="Self.user" Multiplicity="1" />
+          <End Role="comment" Type="Self.comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="userid" />
+            </Principal>
+            <Dependent Role="comment">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_content_user">
+          <End Role="user" Type="Self.user" Multiplicity="1" />
+          <End Role="content" Type="Self.content" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="userid" />
+            </Principal>
+            <Dependent Role="content">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_groupmessage_group">
+          <End Role="group" Type="Self.group" Multiplicity="0..1" />
+          <End Role="groupmessage" Type="Self.groupmessage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="group">
+              <PropertyRef Name="gid" />
+            </Principal>
+            <Dependent Role="groupmessage">
+              <PropertyRef Name="group_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_groupmessage_user">
+          <End Role="user" Type="Self.user" Multiplicity="0..1" />
+          <End Role="groupmessage" Type="Self.groupmessage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="userid" />
+            </Principal>
+            <Dependent Role="groupmessage">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_picture_content">
+          <End Role="content" Type="Self.content" Multiplicity="0..1" />
+          <End Role="picture" Type="Self.picture" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="content">
+              <PropertyRef Name="cid" />
+            </Principal>
+            <Dependent Role="picture">
+              <PropertyRef Name="contentid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_usergroups_group">
+          <End Role="group" Type="Self.group" Multiplicity="1" />
+          <End Role="usergroups" Type="Self.usergroups" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="group">
+              <PropertyRef Name="gid" />
+            </Principal>
+            <Dependent Role="usergroups">
+              <PropertyRef Name="group_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_usergroups_user">
+          <End Role="user" Type="Self.user" Multiplicity="1" />
+          <End Role="usergroups" Type="Self.usergroups" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="userid" />
+            </Principal>
+            <Dependent Role="usergroups">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_video_content">
+          <End Role="content" Type="Self.content" Multiplicity="1" />
+          <End Role="video" Type="Self.video" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="content">
+              <PropertyRef Name="cid" />
+            </Principal>
+            <Dependent Role="video">
+              <PropertyRef Name="content_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="chattingonlyModel1StoreContainer">
+          <EntitySet Name="admin" EntityType="Self.admin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="comment" EntityType="Self.comment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="content" EntityType="Self.content" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="group" EntityType="Self.group" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="groupmessage" EntityType="Self.groupmessage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="picture" EntityType="Self.picture" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="user" EntityType="Self.user" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="usergroups" EntityType="Self.usergroups" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="video" EntityType="Self.video" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_comment_content" Association="Self.FK_comment_content">
+            <End Role="content" EntitySet="content" />
+            <End Role="comment" EntitySet="comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_comment_user" Association="Self.FK_comment_user">
+            <End Role="user" EntitySet="user" />
+            <End Role="comment" EntitySet="comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_content_user" Association="Self.FK_content_user">
+            <End Role="user" EntitySet="user" />
+            <End Role="content" EntitySet="content" />
+          </AssociationSet>
+          <AssociationSet Name="FK_groupmessage_group" Association="Self.FK_groupmessage_group">
+            <End Role="group" EntitySet="group" />
+            <End Role="groupmessage" EntitySet="groupmessage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_groupmessage_user" Association="Self.FK_groupmessage_user">
+            <End Role="user" EntitySet="user" />
+            <End Role="groupmessage" EntitySet="groupmessage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_picture_content" Association="Self.FK_picture_content">
+            <End Role="content" EntitySet="content" />
+            <End Role="picture" EntitySet="picture" />
+          </AssociationSet>
+          <AssociationSet Name="FK_usergroups_group" Association="Self.FK_usergroups_group">
+            <End Role="group" EntitySet="group" />
+            <End Role="usergroups" EntitySet="usergroups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_usergroups_user" Association="Self.FK_usergroups_user">
+            <End Role="user" EntitySet="user" />
+            <End Role="usergroups" EntitySet="usergroups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_video_content" Association="Self.FK_video_content">
+            <End Role="content" EntitySet="content" />
+            <End Role="video" EntitySet="video" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="chattingonlyModel1" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="comment">
+          <Key>
+            <PropertyRef Name="coid" />
+          </Key>
+          <Property Name="coid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="comment1" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="user_id" Type="Int32" Nullable="false" />
+          <Property Name="content_id" Type="Int32" />
+          <NavigationProperty Name="user" Relationship="Self.FK_comment_user" FromRole="comment" ToRole="user" />
+          <NavigationProperty Name="content" Relationship="chattingonlyModel1.FK_comment_content" FromRole="comment" ToRole="content" />
+        </EntityType>
+        <EntityType Name="content">
+          <Key>
+            <PropertyRef Name="cid" />
+          </Key>
+          <Property Name="cid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="message" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="user_id" Type="Int32" Nullable="false" />
+          <Property Name="date" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="user" Relationship="Self.FK_content_user" FromRole="content" ToRole="user" />
+          <NavigationProperty Name="picture" Relationship="Self.FK_picture_content" FromRole="content" ToRole="picture" />
+          <NavigationProperty Name="video" Relationship="Self.FK_video_content" FromRole="content" ToRole="video" />
+          <NavigationProperty Name="comment" Relationship="chattingonlyModel1.FK_comment_content" FromRole="content" ToRole="comment" />
+        </EntityType>
+        <EntityType Name="picture">
+          <Key>
+            <PropertyRef Name="pid" />
+          </Key>
+          <Property Name="pid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="picture1" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="contentid" Type="Int32" />
+          <NavigationProperty Name="content" Relationship="Self.FK_picture_content" FromRole="picture" ToRole="content" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="userid" />
+          </Key>
+          <Property Name="userid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="useremail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="usernickname" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="usersurname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="userage" Type="Int32" />
+          <Property Name="usercity" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="userphone" Type="Int32" />
+          <Property Name="userjob" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="userpp" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="userads" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="comment" Relationship="Self.FK_comment_user" FromRole="user" ToRole="comment" />
+          <NavigationProperty Name="content" Relationship="Self.FK_content_user" FromRole="user" ToRole="content" />
+          <NavigationProperty Name="usergroups" Relationship="chattingonlyModel1.FK_usergroups_user" FromRole="user" ToRole="usergroups" />
+          <NavigationProperty Name="groupmessage" Relationship="chattingonlyModel1.FK_groupmessage_user" FromRole="user" ToRole="groupmessage" />
+        </EntityType>
+        <EntityType Name="video">
+          <Key>
+            <PropertyRef Name="vid" />
+          </Key>
+          <Property Name="vid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="video1" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <Property Name="content_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="content" Relationship="Self.FK_video_content" FromRole="video" ToRole="content" />
+        </EntityType>
+        <Association Name="FK_comment_user">
+          <End Role="user" Type="Self.user" Multiplicity="1" />
+          <End Role="comment" Type="Self.comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="userid" />
+            </Principal>
+            <Dependent Role="comment">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_content_user">
+          <End Role="user" Type="Self.user" Multiplicity="1" />
+          <End Role="content" Type="Self.content" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="userid" />
+            </Principal>
+            <Dependent Role="content">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_picture_content">
+          <End Role="content" Type="Self.content" Multiplicity="0..1" />
+          <End Role="picture" Type="Self.picture" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="content">
+              <PropertyRef Name="cid" />
+            </Principal>
+            <Dependent Role="picture">
+              <PropertyRef Name="contentid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_video_content">
+          <End Role="content" Type="Self.content" Multiplicity="1" />
+          <End Role="video" Type="Self.video" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="content">
+              <PropertyRef Name="cid" />
+            </Principal>
+            <Dependent Role="video">
+              <PropertyRef Name="content_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="chattingonlyEntities2" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="comment" EntityType="Self.comment" />
+          <EntitySet Name="content" EntityType="Self.content" />
+          <EntitySet Name="picture" EntityType="Self.picture" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="user" EntityType="Self.user" />
+          <EntitySet Name="video" EntityType="Self.video" />
+          <AssociationSet Name="FK_comment_user" Association="Self.FK_comment_user">
+            <End Role="user" EntitySet="user" />
+            <End Role="comment" EntitySet="comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_content_user" Association="Self.FK_content_user">
+            <End Role="user" EntitySet="user" />
+            <End Role="content" EntitySet="content" />
+          </AssociationSet>
+          <AssociationSet Name="FK_picture_content" Association="Self.FK_picture_content">
+            <End Role="content" EntitySet="content" />
+            <End Role="picture" EntitySet="picture" />
+          </AssociationSet>
+          <AssociationSet Name="FK_video_content" Association="Self.FK_video_content">
+            <End Role="content" EntitySet="content" />
+            <End Role="video" EntitySet="video" />
+          </AssociationSet>
+          <EntitySet Name="group" EntityType="chattingonlyModel1.group" />
+          <EntitySet Name="usergroups" EntityType="chattingonlyModel1.usergroups" />
+          <AssociationSet Name="FK_usergroups_group" Association="chattingonlyModel1.FK_usergroups_group">
+            <End Role="group" EntitySet="group" />
+            <End Role="usergroups" EntitySet="usergroups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_usergroups_user" Association="chattingonlyModel1.FK_usergroups_user">
+            <End Role="user" EntitySet="user" />
+            <End Role="usergroups" EntitySet="usergroups" />
+          </AssociationSet>
+          <EntitySet Name="admin" EntityType="chattingonlyModel1.admin" />
+          <AssociationSet Name="FK_comment_content" Association="chattingonlyModel1.FK_comment_content">
+            <End Role="content" EntitySet="content" />
+            <End Role="comment" EntitySet="comment" />
+          </AssociationSet>
+          <EntitySet Name="groupmessage" EntityType="chattingonlyModel1.groupmessage" />
+          <AssociationSet Name="FK_groupmessage_group" Association="chattingonlyModel1.FK_groupmessage_group">
+            <End Role="group" EntitySet="group" />
+            <End Role="groupmessage" EntitySet="groupmessage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_groupmessage_group1" Association="chattingonlyModel1.FK_groupmessage_group1">
+            <End Role="group" EntitySet="group" />
+            <End Role="groupmessage" EntitySet="groupmessage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_groupmessage_user" Association="chattingonlyModel1.FK_groupmessage_user">
+            <End Role="user" EntitySet="user" />
+            <End Role="groupmessage" EntitySet="groupmessage" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="group">
+          <Key>
+            <PropertyRef Name="gid" />
+          </Key>
+          <Property Name="gid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="groupkatılım" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="usergroups" Relationship="chattingonlyModel1.FK_usergroups_group" FromRole="group" ToRole="usergroups" />
+          <Property Name="groupname" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="groupdescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="groupmessage" Relationship="chattingonlyModel1.FK_groupmessage_group" FromRole="group" ToRole="groupmessage" />
+          <NavigationProperty Name="groupmessage1" Relationship="chattingonlyModel1.FK_groupmessage_group1" FromRole="group" ToRole="groupmessage" />
+        </EntityType>
+        <EntityType Name="usergroups">
+          <Key>
+            <PropertyRef Name="ugid" />
+          </Key>
+          <Property Name="ugid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="user_id" Type="Int32" Nullable="false" />
+          <Property Name="group_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="group" Relationship="chattingonlyModel1.FK_usergroups_group" FromRole="usergroups" ToRole="group" />
+          <NavigationProperty Name="user" Relationship="chattingonlyModel1.FK_usergroups_user" FromRole="usergroups" ToRole="user" />
+        </EntityType>
+        <Association Name="FK_usergroups_group">
+          <End Type="chattingonlyModel1.group" Role="group" Multiplicity="1" />
+          <End Type="chattingonlyModel1.usergroups" Role="usergroups" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="group">
+              <PropertyRef Name="gid" />
+            </Principal>
+            <Dependent Role="usergroups">
+              <PropertyRef Name="group_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_usergroups_user">
+          <End Type="chattingonlyModel1.user" Role="user" Multiplicity="1" />
+          <End Type="chattingonlyModel1.usergroups" Role="usergroups" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="userid" />
+            </Principal>
+            <Dependent Role="usergroups">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="admin">
+          <Key>
+            <PropertyRef Name="adminid" />
+          </Key>
+          <Property Name="adminid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="adminemail" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="adminpasswd" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="adminnickname" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_comment_content">
+          <End Type="chattingonlyModel1.content" Role="content" Multiplicity="0..1" />
+          <End Type="chattingonlyModel1.comment" Role="comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="content">
+              <PropertyRef Name="cid" />
+            </Principal>
+            <Dependent Role="comment">
+              <PropertyRef Name="content_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="groupmessage">
+          <Key>
+            <PropertyRef Name="gmeid" />
+          </Key>
+          <Property Name="gmessage" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="date" Type="DateTime" Precision="0" />
+          <Property Name="group_id" Type="Int32" />
+          <NavigationProperty Name="group" Relationship="chattingonlyModel1.FK_groupmessage_group" FromRole="groupmessage" ToRole="group" />
+          <Property Name="user_id" Type="Int32" />
+          <NavigationProperty Name="group1" Relationship="chattingonlyModel1.FK_groupmessage_group1" FromRole="groupmessage" ToRole="group" />
+          <NavigationProperty Name="user" Relationship="chattingonlyModel1.FK_groupmessage_user" FromRole="groupmessage" ToRole="user" />
+          <Property Name="gmeid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <Association Name="FK_groupmessage_group">
+          <End Type="chattingonlyModel1.group" Role="group" Multiplicity="1" />
+          <End Type="chattingonlyModel1.groupmessage" Role="groupmessage" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="group">
+              <PropertyRef Name="gid" />
+            </Principal>
+            <Dependent Role="groupmessage">
+              <PropertyRef Name="gmid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_groupmessage_group1">
+          <End Type="chattingonlyModel1.group" Role="group" Multiplicity="0..1" />
+          <End Type="chattingonlyModel1.groupmessage" Role="groupmessage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="group">
+              <PropertyRef Name="gid" />
+            </Principal>
+            <Dependent Role="groupmessage">
+              <PropertyRef Name="group_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_groupmessage_user">
+          <End Type="chattingonlyModel1.user" Role="user" Multiplicity="0..1" />
+          <End Type="chattingonlyModel1.groupmessage" Role="groupmessage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="userid" />
+            </Principal>
+            <Dependent Role="groupmessage">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="chattingonlyModel1StoreContainer" CdmEntityContainer="chattingonlyEntities2">
+          <EntitySetMapping Name="comment">
+            <EntityTypeMapping TypeName="chattingonlyModel1.comment">
+              <MappingFragment StoreEntitySet="comment">
+                <ScalarProperty Name="coid" ColumnName="coid" />
+                <ScalarProperty Name="comment1" ColumnName="comment1" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="content_id" ColumnName="content_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="content">
+            <EntityTypeMapping TypeName="chattingonlyModel1.content">
+              <MappingFragment StoreEntitySet="content">
+                <ScalarProperty Name="cid" ColumnName="cid" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="message" ColumnName="message" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="date" ColumnName="date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="picture">
+            <EntityTypeMapping TypeName="chattingonlyModel1.picture">
+              <MappingFragment StoreEntitySet="picture">
+                <ScalarProperty Name="pid" ColumnName="pid" />
+                <ScalarProperty Name="picture1" ColumnName="picture" />
+                <ScalarProperty Name="contentid" ColumnName="contentid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="chattingonlyModel1.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="user">
+            <EntityTypeMapping TypeName="chattingonlyModel1.user">
+              <MappingFragment StoreEntitySet="user">
+                <ScalarProperty Name="userid" ColumnName="userid" />
+                <ScalarProperty Name="useremail" ColumnName="useremail" />
+                <ScalarProperty Name="usernickname" ColumnName="usernickname" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="usersurname" ColumnName="usersurname" />
+                <ScalarProperty Name="userage" ColumnName="userage" />
+                <ScalarProperty Name="usercity" ColumnName="usercity" />
+                <ScalarProperty Name="userphone" ColumnName="userphone" />
+                <ScalarProperty Name="userjob" ColumnName="userjob" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="userpp" ColumnName="userpp" />
+                <ScalarProperty Name="userads" ColumnName="userads" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="video">
+            <EntityTypeMapping TypeName="chattingonlyModel1.video">
+              <MappingFragment StoreEntitySet="video">
+                <ScalarProperty Name="vid" ColumnName="vid" />
+                <ScalarProperty Name="video1" ColumnName="video1" />
+                <ScalarProperty Name="content_id" ColumnName="content_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="group">
+            <EntityTypeMapping TypeName="chattingonlyModel1.group">
+              <MappingFragment StoreEntitySet="group">
+                <ScalarProperty Name="groupdescription" ColumnName="groupdescription" />
+                <ScalarProperty Name="groupname" ColumnName="groupname" />
+                <ScalarProperty Name="groupkatılım" ColumnName="groupkatılım" />
+                <ScalarProperty Name="gid" ColumnName="gid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="usergroups">
+            <EntityTypeMapping TypeName="chattingonlyModel1.usergroups">
+              <MappingFragment StoreEntitySet="usergroups">
+                <ScalarProperty Name="group_id" ColumnName="group_id" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="ugid" ColumnName="ugid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="admin">
+            <EntityTypeMapping TypeName="chattingonlyModel1.admin">
+              <MappingFragment StoreEntitySet="admin">
+                <ScalarProperty Name="adminnickname" ColumnName="adminnickname" />
+                <ScalarProperty Name="adminpasswd" ColumnName="adminpasswd" />
+                <ScalarProperty Name="adminemail" ColumnName="adminemail" />
+                <ScalarProperty Name="adminid" ColumnName="adminid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="groupmessage">
+            <EntityTypeMapping TypeName="chattingonlyModel1.groupmessage">
+              <MappingFragment StoreEntitySet="groupmessage">
+                <ScalarProperty Name="gmeid" ColumnName="gmeid" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="group_id" ColumnName="group_id" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="gmessage" ColumnName="gmessage" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

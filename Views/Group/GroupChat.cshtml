@@ -1,24 +1,31 @@
-﻿@model List<Qu2SM.Models.groupmessage>
+﻿@model chatting.Models.groupmessage
 
 @{
-    ViewBag.Title = "Grup Sohbeti - " + ViewBag.GroupName + "Grup Davet Kodu -" + ViewBag.GroupCode;
+    ViewBag.Title = "Grup Sohbeti";
 }
 
-<h2>Grup Sohbeti - @ViewBag.GroupName | Grup Davet Kodu @ViewBag.groupdavet</h2>
-<h3>@ViewBag.Groupdescp</h3>
+<h2>@Model.groupname</h2>
 
-<div id="chat-box">
-    @foreach (var message in Model)
+<div>
+    <h3>Mesajları Görüntüle</h3>
+    <ul>
+        @foreach (var message in Model)
+        {
+            <li>@message.gmessage</li>
+        }
+    </ul>
+</div>
+
+<div>
+    <h3>Yeni Mesaj Ekle</h3>
+    @using (Html.BeginForm("SendMessage", "Group"))
     {
-        <div class="message">
-            <span class="message-timestamp">@message.date</span>
-            <span class="message-text">@message.gmessage</span>
-            <span class="message-sender">@message.user.usernickname</span>
-        </div>
+        @Html.Hidden("groupId", Model.gid)
+        @Html.TextBox("messageText")
+        <input type="submit" value="Gönder" />
     }
 </div>
 
-<form id="message-form" action="@Url.Action("SendMessage", "Group", new { groupId = ViewBag.GroupId })" method="post">
-    <input type="text" id="messageText" name="messageText" class="form-control" required placeholder="Mesajınızı buraya yazın..." />
-    <button type="submit" class="btn btn-primary">Gönder</button>
-</form>
+<div>
+    @Html.ActionLink("Geri Dön", "Index")
+</div>

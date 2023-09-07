@@ -1,42 +1,46 @@
-﻿@model List<Qu2SM.Models.content>
+﻿@model List<chatting.Models.content>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Ansayfa</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    
+    <title>Tüm İçerikler</title>
     <style>
+        /* Ana stil */
         body {
             font-family: Arial, sans-serif;
         }
 
+        /* İçerik konteyneri */
         .content-container {
-            max-width: 400px;
+            max-width: 800px;
             margin: 0 auto;
             padding: 20px;
         }
 
+        /* İçerik liste stil */
         .content-list {
             background-color: #fff;
             border-radius: 4px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
+        /* İçerik kutusu stil */
         .content-box {
             padding: 20px;
             border-bottom: 1px solid #e0e0e0;
-            margin-bottom: 30px;
+            margin-bottom: 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
+        /* Kullanıcı bilgileri */
         .user-info {
             display: flex;
             align-items: center;
         }
 
+        /* Kullanıcı adı */
         .username {
             font-weight: bold;
             font-size: 18px;
@@ -44,195 +48,56 @@
             margin-right: 10px;
         }
 
+        /* İçerik içeriği */
         .content-info {
             width: 80%;
         }
 
+        /* İçerik tarih */
         .content-date {
             font-size: 14px;
             color: #888;
         }
 
+        /* Profil resmi */
         .profile-picture {
-            max-width: 30px;
-        }
-
-        .chat-tab {
-            position: fixed;
-            bottom: 0;
-            left: 20px;
-            background-color: #007bff;
-            color: #fff;
-            padding: 10px;
-            border-radius: 5px 5px 0 0;
-            cursor: pointer;
-            transition: left 0.3s ease;
-        }
-
-
-        .chat-tab-closed {
-            left: -50px;
-        }
-
-
-        .chat-panel {
-            position: fixed;
-            bottom: 0;
-            left: 20px;
-            width: 300px;
-            background-color: #fff;
-            border: 1px solid #ccc;
-            border-top: none;
-            border-radius: 0 0 5px 5px;
-            padding: 10px;
-            z-index: 999;
-            transition: left 0.3s ease;
-        }
-
-        .chat-panel-hidden {
-            left: -350px;
+            max-width: 50px;
         }
     </style>
 </head>
 <body>
-    @Html.Partial("_AddContent")
     <div class="content-container">
-        <h2>Anasayfa</h2>
+        <h2>Tüm İçerikler</h2>
         <div class="content-list">
             @foreach (var contentItem in Model.OrderByDescending(c => c.date))
             {
                 <div class="content-box">
                     <div class="content-info">
-                        <div class="profile-picture">
-                            @if (contentItem.picture != null && contentItem.picture.Any() && contentItem.picture.First().picture1 != null && contentItem.picture.First().picture1.Length > 0)
-                            {
-                                <img src="data:image;base64,@Convert.ToBase64String(contentItem.picture.First().picture1)" alt="Resim" class="img-thumbnail" style="max-width: 150px;" />
-                            }
-                            @if (contentItem.video != null && contentItem.video.Any() && contentItem.video.First().video1 != null && contentItem.video.First().video1.Length > 0)
-                            {
-                                <video controls style="max-width: 500px;">
-                                    <source src="data:video/mp4;base64,@Convert.ToBase64String(contentItem.video.First().video1)" type="video/mp4" style="max-width: 150px;">
-                                    Tarayıcınız video etiketini desteklemiyor.
-                                </video>
-                            }
-                        </div>
                         <h3>@contentItem.title</h3>
                         <p>@contentItem.message</p>
-                        <p>Görüntülenme Sayısı: @contentItem.viewCount</p>
-
-                        <script>
-                            <script>
-                                document.addEventListener("DOMContentLoaded", function () {
-                                var posts = document.querySelectorAll('.content-box');
-
-                                posts.forEach(function (post) {
-                                    var postViews = 0;
-
-                                var postViewsElement = post.querySelector('.post-views');
-
-                                post.addEventListener('click', function () {
-                                    postViews++;
-
-                                postViewsElement.textContent = postViews + ' görüntülenme';
-
-                                    });
-                                });
-                            });
-                        </script>
-
-                        </script>
-                        <script type='text/javascript' src='https://www.freevisitorcounters.com/auth.php?id=2aa1896378583b440d6a5f41dd3e3b6f23971d94'></script>
-                        <script type="text/javascript" src="https://www.freevisitorcounters.com/en/home/counter/1070773/t/3"></script>
-
                         <div class="content-date">
-                            Oluşturulma Tarihi: @contentItem.date
+                            Oluşturulma Tarihi: @contentItem.date?.ToString
                         </div>
-                        <span class="likebtn-wrapper" data-theme="direct" data-white_label="true" data-identifier="likebtn_@contentItem.cid" data-show_like_label="false" data-counter_show="true" data-popup_disabled="true" data-share_enabled="false" data-share_size="large"></span>
-                        <script>
-                            (function (d, e, s) {
-                                                    if (d.getElementById("likebtn_wjs")) return;
-                            a = d.createElement(e);
-                            m = d.getElementsByTagName(e)[0];
-                            a.async = 1;
-                            a.id = "likebtn_wjs";
-                            a.src = s;
-                            m.parentNode.insertBefore(a, m);
-                                                })(document, "script", "//w.likebtn.com/js/w/widget.js");
-                        </script>
-
-                        <div class="user-info">
-                            <form action="@Url.Action("UserDetails", "Home")" method="post" style="display: inline;">
-                                <input type="hidden" name="id" value="@contentItem.user.userid" />
-                                <button type="submit" class="user-button">@contentItem.user.usernickname</button>
-                            </form>
-                            <div class="profile-picture">
-                                @if (Model != null && @contentItem.user.userpp != null)
-                                {
-                                    <img src="data:image;base64,@Convert.ToBase64String(@contentItem.user.userpp)" alt="Profil Resmi" class="img-thumbnail" />
-                                }
-                                else
-                                {
-                                    <p>Mevcut profil resmi yok.</p>
-                                }
-                            </div>
+                    </div>
+                    <div class="user-info">
+                        <form action="@Url.Action("UserDetails", "Home")" method="post" style="display: inline;">
+                            <input type="hidden" name="id" value="@contentItem.user.userid" />
+                            <button type="submit" class="user-button">@contentItem.user.usernickname</button>
+                        </form>
+                        <div class="profile-picture">
+                            @if (Model != null && @contentItem.user.userpp != null)
+                            {
+                                <img src="data:image;base64,@Convert.ToBase64String(@contentItem.user.userpp)" alt="Profil Resmi" class="img-thumbnail" />
+                            }
+                            else
+                            {
+                                <p>Mevcut profil resmi yok.</p>
+                            }
                         </div>
-
-                        @if (contentItem.comment != null && contentItem.comment.Any())
-                        {
-                            <div class="comments-container">
-                                @foreach (var commentItem in contentItem.comment)
-                                {
-                                    <div class="comment-box">
-
-                                        <div class="user-info">
-                                            <form action="@Url.Action("UserDetails", "Home")" method="post" style="display: inline;">
-                                                <input type="hidden" name="id" value="@commentItem.user.userid" />
-                                                <button type="submit" class="user-button">@commentItem.user.usernickname</button>
-                                            </form>
-                                            @if (commentItem.user.useremail == User.Identity.Name || contentItem.user.useremail == User.Identity.Name)
-                                            {
-                                                <form action="@Url.Action("DeleteComment", "Home")" method="post" class="delete-comment-form">
-                                                    @Html.Hidden("commentId", commentItem.coid)
-                                                    <button type="submit" class="delete-button">❌</button>
-                                                </form>
-                                            }
-                                        </div>
-
-                                        <div class="profile-picture">
-                                            @if (commentItem.user != null && commentItem.user.userpp != null)
-                                            {
-                                                <img src="data:image;base64,@Convert.ToBase64String(commentItem.user.userpp)" alt="Profil Resmi" class="img-thumbnail" />
-                                            }
-
-                                        </div>
-                                    </div>
-                                }
-                            </div>
-                        }
-
-
                     </div>
                 </div>
-                <form action="@Url.Action("AddComment", "Home")" method="post">
-                    @Html.Hidden("selectedContentId", contentItem.cid)
-                    <div class="form-group">
-                        <label for="commentText">Yorum Ekle:</label>
-                        <textarea name="comment.comment1" id="commentText" class="form-control" required></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Yorum Ekle</button>
-                </form>
             }
-
-
         </div>
     </div>
-    
-
-
-
 </body>
 </html>
-
-
-
-

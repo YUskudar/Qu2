@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Qu2SM.Models
+namespace chatting.Models
 {
     using System;
     using System.Collections.Generic;
@@ -18,8 +18,5 @@ namespace Qu2SM.Models
         public string adminemail { get; set; }
         public string adminpasswd { get; set; }
         public string adminnickname { get; set; }
-        public Nullable<int> role { get; set; }
-    
-        public virtual Roles Roles { get; set; }
     }
 }

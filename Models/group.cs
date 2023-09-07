@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Qu2SM.Models
+namespace chatting.Models
 {
     using System;
     using System.Collections.Generic;
@@ -17,8 +17,8 @@ namespace Qu2SM.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public group()
         {
-            this.groupmessage = new HashSet<groupmessage>();
             this.usergroups = new HashSet<usergroups>();
+            this.groupmessage = new HashSet<groupmessage>();
         }
     
         public int gid { get; set; }
@@ -27,8 +27,9 @@ namespace Qu2SM.Models
         public string groupdescription { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<groupmessage> groupmessage { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<usergroups> usergroups { get; set; }
+        public virtual groupmessage groupmessage { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<groupmessage> groupmessage1 { get; set; }
     }
 }

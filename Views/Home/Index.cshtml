@@ -106,7 +106,8 @@
         <div class="content-list">
             @foreach (var contentItem in Model.OrderByDescending(c => c.date))
             {
-                <div class="content-box">
+                <div class="content-box" data-post-id="@contentItem.cid">
+
                     <div class="content-info">
                         <div class="profile-picture">
                             @if (contentItem.picture != null && contentItem.picture.Any() && contentItem.picture.First().picture1 != null && contentItem.picture.First().picture1.Length > 0)
@@ -123,20 +124,37 @@
                         </div>
                         <h3>@contentItem.title</h3>
                         <p>@contentItem.message</p>
-                        <p>Görüntülenme Sayısı: @contentItem.viewCount</p>
+
+                        <span class="post-views" data-post-id="@contentItem.cid">0 görüntülenme</span>
+
                         <script>
                             document.addEventListener("DOMContentLoaded", function () {
                                 var posts = document.querySelectorAll('.content-box');
+
                                 posts.forEach(function (post) {
-                                    var postViews = 0;
                                     var postViewsElement = post.querySelector('.post-views');
+                                    var postId = post.getAttribute('data-post-id');
+
+                                    var postViews = localStorage.getItem('postViews_' + postId);
+
+                                    if (!postViews) {
+                                        postViews = 0;
+                                    }
+
+                                    postViewsElement.textContent = postViews + ' görüntülenme';
+
                                     post.addEventListener('click', function () {
                                         postViews++;
+
+                                        localStorage.setItem('postViews_' + postId, postViews);
+
                                         postViewsElement.textContent = postViews + ' görüntülenme';
                                     });
                                 });
                             });
                         </script>
+
+
 
                         <div class="content-date">
                             Oluşturulma Tarihi: @contentItem.date

@@ -1,4 +1,4 @@
-﻿﻿@model chatting.Models.user
+﻿﻿@model Qu2SM.Models.user
 @{
     Layout = null;
 }
@@ -7,9 +7,14 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
+    <meta name="google-signin-client_id" content="25467907298-4qjieg5jf61jn6nbhslklg5b69ifsvq2.apps.googleusercontent.com">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="https://apis.google.com/js/client:platform.js?onload=renderButton" async defer></script>
+
     <title>Login</title>
 </head>
 <body>
@@ -18,7 +23,7 @@
             <div class="col-4">
                 <div class="card">
                     <div class="card-body">
-                        <h2>Giriş Formu</h2>
+                        <h2>Qu2</h2>
                         @ViewBag.Mesaj
                         @using (Html.BeginForm("Login", "Security", FormMethod.Post))
                         {
@@ -30,7 +35,49 @@
                             </div>
                             <input type="submit" class="btn btn-primary" value="Login">
 
+                            <input type="button" class="btn btn-success" value="Admin Girişi" onclick="location.href='@Url.Action("AdminLogin", "Security")'">
+
                             <input type="button" class="btn btn-success" value="Üye Ol" onclick="location.href='@Url.Action("Register", "Security")'">
+
+                            <div id="gSignIn"></div>
+                            <div class="userContent"></div>
+                            <script>
+                                function onSuccess(googleUser) {
+                                    var profile = googleUser.getBasicProfile();
+                                    gapi.client.load('plus', 'v1', function () {
+                                        var request = gapi.client.plus.people.get({
+                                            'userId': 'me'
+                                        });
+                                        request.execute(function (resp) {
+                                            var profileHTML = '<div class="profile"><div class="head">Welcome ' + resp.name.givenName + '! <a href="javascript:void(0);" onclick="signOut();">Sign out</a></div>';
+                                            profileHTML += '<img src="' + resp.image.url + '"/><div class="proDetails"><p>' + resp.displayName + '</p><p>' + resp.emails[0].value + '</p><p>' + resp.gender + '</p><p>' + resp.id + '</p><p><a href="' + resp.url + '">View Google+ Profile</a></p></div></div>';
+                                            $('.userContent').html(profileHTML);
+                                            $('#gSignIn').slideUp('slow');
+                                        });
+                                    });
+                                }
+                                function onFailure(error) {
+                                    alert(error);
+                                }
+                                function renderButton() {
+                                    gapi.signin2.render('gSignIn', {
+                                        'scope': 'profile email',
+                                        'width': 240,
+                                        'height': 50,
+                                        'longtitle': true,
+                                        'theme': 'dark',
+                                        'onsuccess': onSuccess,
+                                        'onfailure': onFailure
+                                    });
+                                }
+                                function signOut() {
+                                    var auth2 = gapi.auth2.getAuthInstance();
+                                    auth2.signOut().then(function () {
+                                        $('.userContent').html('');
+                                        $('#gSignIn').slideDown('slow');
+                                    });
+                                }
+                            </script>
                         }
                     </div>
                 </div>

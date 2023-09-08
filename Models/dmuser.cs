@@ -12,15 +12,15 @@ namespace Qu2SM.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class comment
+    public partial class dmuser
     {
-        public int coid { get; set; }
-        public string comment1 { get; set; }
-        public System.DateTime date { get; set; }
-        public int user_id { get; set; }
-        public Nullable<int> content_id { get; set; }
+        public int dmuid { get; set; }
+        public Nullable<int> dm_id { get; set; }
+        public Nullable<int> usersending_id { get; set; }
+        public Nullable<int> userreceived_id { get; set; }
     
-        public virtual content content { get; set; }
+        public virtual directmessage directmessage { get; set; }
         public virtual user user { get; set; }
+        public virtual user user1 { get; set; }
     }
 }

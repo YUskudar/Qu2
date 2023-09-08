@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace chatting.Models
+namespace Qu2SM.Models
 {
     using System;
     using System.Collections.Generic;
@@ -17,7 +17,13 @@ namespace chatting.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public user()
         {
+            this.comment = new HashSet<comment>();
             this.content = new HashSet<content>();
+            this.dmuser = new HashSet<dmuser>();
+            this.dmuser1 = new HashSet<dmuser>();
+            this.groupmessage = new HashSet<groupmessage>();
+            this.likes = new HashSet<likes>();
+            this.usergroups = new HashSet<usergroups>();
         }
     
         public int userid { get; set; }
@@ -31,9 +37,24 @@ namespace chatting.Models
         public string userjob { get; set; }
         public string password { get; set; }
         public byte[] userpp { get; set; }
-        public string userrole { get; set; }
+        public string userads { get; set; }
+        public Nullable<int> role { get; set; }
+        public string roletype { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<comment> comment { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<content> content { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<dmuser> dmuser { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<dmuser> dmuser1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<groupmessage> groupmessage { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<likes> likes { get; set; }
+        public virtual Roles Roles { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<usergroups> usergroups { get; set; }
     }
 }

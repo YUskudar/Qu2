@@ -11,76 +11,86 @@ namespace Qu2SM.Controllers
     {
         private chattingonlyEntities db = new chattingonlyEntities();
 
-       
-        public ActionResult CreateOrJoin()
+
+        public ActionResult Index()
+        {
+            return View(); 
+        }
+        public ActionResult CreateGroup()
         {
             return View();
         }
 
-        //Burada CreateORJoin aksiyonum var. Bu şu demek kullanıcı ya yeni grup oluşturacak ya da varolan bir gruba katılım kodu ile katılabilicek
         [HttpPost]
-        public ActionResult CreateOrJoin(group group, string createGroup, string joinGroup, int? groupCode)
+        public ActionResult CreateGroup(group group)
         {
-            if (!string.IsNullOrEmpty(createGroup)) //Bu kısım yeni grup oluşturma kısmı.
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
+                Random random = new Random();
+                int newGroupCode = random.Next(1000, 1000000000); //grup katılım kodunu rastgele veriyorum.
+
+                var newGroup = new group
                 {
-                    Random random = new Random();
-                    int newGroupCode = random.Next(1000, 10000); //grup katılım kodunu rastgele veriyorum.
+                    groupname = group.groupname,
+                    groupkatılım = newGroupCode
+                };
+                db.group.Add(newGroup);
+                db.SaveChanges();
 
-                    var newGroup = new group
-                    {
-                        groupname = group.groupname,
-                        groupkatılım = newGroupCode
-                    };
-                    db.group.Add(newGroup);
-                    db.SaveChanges();
-
-                    string userId = User.Identity.Name;
-                    var userGroup = new usergroups
-                    {
-                        user_id = db.user.FirstOrDefault(u => u.useremail == userId).userid,
-                        group_id = newGroup.gid
-                    };
-                    db.usergroups.Add(userGroup); //burada logları basitleştirmek için kullanıcı ve grubu usergroups modelinde tutuyorum.
-                    db.SaveChanges();
-
-                    return RedirectToAction("Index", "Home");
-                }
-            }
-            else if (!string.IsNullOrEmpty(joinGroup)) //Bu kısım varolan gruba katılma kısmı
-            {
-                if (groupCode.HasValue)
+                string userId = User.Identity.Name;
+                var userGroup = new usergroups
                 {
-                    var existingGroup = db.group.FirstOrDefault(g => g.groupkatılım == groupCode);
+                    user_id = db.user.FirstOrDefault(u => u.useremail == userId).userid,
+                    group_id = newGroup.gid
+                };
+                db.usergroups.Add(userGroup); //burada logları basitleştirmek için kullanıcı ve grubu usergroups modelinde tutuyorum.
+                db.SaveChanges();
 
-                    if (existingGroup != null)
-                    {
-                        string userId = User.Identity.Name;
-
-                        var userGroup = new usergroups
-                        {
-                            user_id = db.user.FirstOrDefault(u => u.useremail == userId).userid,
-                            group_id = existingGroup.gid
-                        };
-                        db.usergroups.Add(userGroup);
-                        db.SaveChanges();
-
-                        return RedirectToAction("Index", "Home");
-                    }
-                    else
-                    {
-                        ModelState.AddModelError("groupCode", "Geçersiz grup kodu.");
-                    }
-                }
-                else
-                {
-                    ModelState.AddModelError("groupCode", "Grup katılım kodunu girin.");
-                }
+                return RedirectToAction("Index", "Home");
             }
 
             return View(group);
         }
+
+        public ActionResult JoinGroup()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult JoinGroup(int? groupCode)
+        {
+            if (groupCode.HasValue)
+            {
+                var existingGroup = db.group.FirstOrDefault(g => g.groupkatılım == groupCode);
+
+                if (existingGroup != null)
+                {
+                    string userId = User.Identity.Name;
+
+                    var userGroup = new usergroups
+                    {
+                        user_id = db.user.FirstOrDefault(u => u.useremail == userId).userid,
+                        group_id = existingGroup.gid
+                    };
+                    db.usergroups.Add(userGroup);
+                    db.SaveChanges();
+
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    ModelState.AddModelError("groupCode", "Geçersiz grup kodu.");
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("groupCode", "Grup katılım kodunu girin.");
+            }
+
+            return View();
+        }
+
         public ActionResult MyGroups() //Bu kısımda Kullanıcı üyesi olduğu grupları görebiliyor.
         {
             string userId = User.Identity.Name;
@@ -173,6 +183,36 @@ namespace Qu2SM.Controllers
                 return false; 
             }
         }
+        public ActionResult LeaveGroup(int groupId)
+        {
+            string userId = User.Identity.Name;
+
+            bool isUserMemberOfGroup = CheckIfUserIsMemberOfGroup(userId, groupId);
+
+            if (isUserMemberOfGroup)
+            {
+                using (var db = new chattingonlyEntities())
+                {
+                    var user = db.user.FirstOrDefault(u => u.useremail == userId);
+                    var userGroup = db.usergroups.FirstOrDefault(ug => ug.user_id == user.userid && ug.group_id == groupId);
+
+                    if (userGroup != null)
+                    {
+                        db.usergroups.Remove(userGroup);
+                        db.SaveChanges();
+
+                        return RedirectToAction("MyGroups");
+                    }
+                }
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Bu gruptan zaten çıktınız veya üye değilsiniz.");
+            }
+
+            return RedirectToAction("GroupChat", new { groupId = groupId });
+        }
+
 
 
     }

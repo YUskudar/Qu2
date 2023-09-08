@@ -12,6 +12,7 @@
         <tr>
             <th>İçerik ID</th>
             <th>Başlık</th>
+            <th>Sahibi</th>
             <th>İçerik Tipi</th>
             <th>İşlemler</th>
         </tr>
@@ -22,6 +23,7 @@
             <tr>
                 <td>@content.cid</td>
                 <td>@content.title</td>
+                <td>@content.user.usernickname</td>
                 <td>
                      <a href="@Url.Action("ContentDetail", "Kategori", new { id = content.cid })">Detay</a>
                 </td>

@@ -12,23 +12,20 @@ namespace Qu2SM.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class group
+    public partial class directmessage
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public group()
+        public directmessage()
         {
-            this.groupmessage = new HashSet<groupmessage>();
-            this.usergroups = new HashSet<usergroups>();
+            this.dmuser = new HashSet<dmuser>();
         }
     
-        public int gid { get; set; }
-        public int groupkatılım { get; set; }
-        public string groupname { get; set; }
-        public string groupdescription { get; set; }
+        public int dmid { get; set; }
+        public string message { get; set; }
+        public byte[] msdate { get; set; }
+        public int dm_id { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<groupmessage> groupmessage { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<usergroups> usergroups { get; set; }
+        public virtual ICollection<dmuser> dmuser { get; set; }
     }
 }

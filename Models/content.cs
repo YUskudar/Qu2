@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace chatting.Models
+namespace Qu2SM.Models
 {
     using System;
     using System.Collections.Generic;
@@ -17,7 +17,10 @@ namespace chatting.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public content()
         {
+            this.comment = new HashSet<comment>();
+            this.likes = new HashSet<likes>();
             this.picture = new HashSet<picture>();
+            this.video = new HashSet<video>();
         }
     
         public int cid { get; set; }
@@ -25,9 +28,16 @@ namespace chatting.Models
         public string message { get; set; }
         public int user_id { get; set; }
         public Nullable<System.DateTime> date { get; set; }
+        public Nullable<int> viewCount { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<comment> comment { get; set; }
         public virtual user user { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<likes> likes { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<picture> picture { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<video> video { get; set; }
     }
 }

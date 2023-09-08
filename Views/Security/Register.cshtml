@@ -1,41 +1,63 @@
 ﻿@{
-    ViewBag.Title = "Register";
+    ViewBag.Title = "Üye Ol";
+    Layout = null; // Bu satır layout kullanmamak için gereklidir.
 }
 
-<h2>Register</h2>
+<style>
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh; /* Sayfanın tamamını kaplaması için sayfa yüksekliği ayarlanır. İhtiyaca göre değiştirilebilir. */
+    }
 
-@using (Html.BeginForm("Register", "Security", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-    <div class="form-group">
-        <label for="useremail">Email</label>
-        <input name="useremail" type="text" class="form-control" required>
-    </div>
-    <div class="form-group">
-        <label for="usernickname">Nickname</label>
-        <input name="usernickname" type="text" class="form-control" required>
-    </div>
-    <div class="form-group">
-        <label for="username">Name</label>
-        <input name="username" type="text" class="form-control" required>
-    </div>
-    <div class="form-group">
-        <label for="usersurname">Surname</label>
-        <input name="usersurname" type="text" class="form-control" required>
-    </div>
-    <div class="form-group">
-        <label for="userage">Age</label>
-        <input name="userage" type="text" class="form-control" required>
-    </div>
-    <div class="form-group">
-        <label for="password">Parola</label>
-        <input name="password" type="password" class="form-control" required>
-    </div>
-   
+    .form-group {
+        text-align: center;
+        margin-bottom: 15px;
+    }
 
-    <button type="submit" class="btn btn-success">Üye Ol</button>
-}
+    .btn-block {
+        width: 100%;
+    }
+</style>
 
-@if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
-{
-    <p class="text-danger">@ViewBag.ErrorMessage</p>
-}
+<div class="container">
+    <div class="col-md-6">
+        <h2>Register</h2>
+
+        @using (Html.BeginForm("Register", "Security", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <div class="form-group">
+                <label for="useremail"></label>
+                <input name="useremail" type="email" class="form-control text-center" placeholder="E-mailinizi yazınız" required>
+            </div>
+            <div class="form-group">
+                <label for="usernickname"></label>
+                <input name="usernickname" type="text" class="form-control text-center" placeholder="Nickname'i yazınız" required>
+            </div>
+            <div class="form-group">
+                <label for="username"></label>
+                <input name="username" type="text" class="form-control text-center" placeholder="Adınızı yazınız" required>
+            </div>
+            <div class="form-group">
+                <label for="usersurname"></label>
+                <input name="usersurname" type="text" class="form-control text-center" placeholder="Soyadınızı yazınız" required>
+            </div>
+            <div class="form-group">
+                <label for="userage"></label>
+                <input name="userage" type="text" class="form-control text-center" placeholder="Yaşınızı yazınız" required>
+            </div>
+            <div class="form-group">
+                <label for="password"></label>
+                <input name="password" type="password" class="form-control text-center" placeholder="Parolanızı yazınız" required>
+            </div>
+            <button type="submit" class="btn btn-success btn-block">Üye Ol</button>
+        }
+
+        @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+        {
+            <p class="text-danger">@ViewBag.ErrorMessage</p>
+        }
+    </div>
+</div>

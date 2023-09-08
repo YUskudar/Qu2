@@ -1,31 +1,55 @@
-﻿@model chatting.Models.groupmessage
+﻿@model List<Qu2SM.Models.groupmessage>
 
 @{
-    ViewBag.Title = "Grup Sohbeti";
+    ViewBag.Title = "Grup Sohbeti - " + ViewBag.GroupName + " | Grup Davet Kodu -" + ViewBag.GroupCode;
 }
 
-<h2>@Model.groupname</h2>
+<h2>Grup Sohbeti - @ViewBag.GroupName | Grup Davet Kodu @ViewBag.groupdavet</h2>
+<h3>@ViewBag.Groupdescp</h3>
 
-<div>
-    <h3>Mesajları Görüntüle</h3>
-    <ul>
+<div id="chat-container">
+    <div id="chat-box">
         @foreach (var message in Model)
         {
-            <li>@message.gmessage</li>
+            <div class="message">
+                <span class="message-timestamp">@message.date</span>
+                <span class="message-text">@message.gmessage</span>
+                <span class="message-sender">-->@message.user.usernickname</span>
+            </div>
         }
-    </ul>
+    </div>
+
+    <form id="message-form" action="@Url.Action("SendMessage", "Group", new { groupId = ViewBag.GroupId })" method="post">
+        <input type="text" id="messageText" name="messageText" class="form-control" required placeholder="Mesajınızı buraya yazın..." />
+        <button type="submit" class="btn btn-primary">Gönder</button>
+    </form>
+    
+        <p>
+            <a href="@Url.Action("LeaveGroup", "Group", new { groupId = ViewBag.GroupId })">Grubu Terk Et</a>
+        </p>
+    
 </div>
 
-<div>
-    <h3>Yeni Mesaj Ekle</h3>
-    @using (Html.BeginForm("SendMessage", "Group"))
-    {
-        @Html.Hidden("groupId", Model.gid)
-        @Html.TextBox("messageText")
-        <input type="submit" value="Gönder" />
+<style>
+    #chat-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-end;
+        height: 80vh; 
+        overflow-y: scroll;
     }
-</div>
 
-<div>
-    @Html.ActionLink("Geri Dön", "Index")
-</div>
+    #chat-box {
+        flex-grow: 1;
+        width: 100%;
+        max-height: 60vh;
+        overflow-y: auto;
+        margin-bottom: 10px;
+    }
+
+    #message-form {
+        width: 100%;
+        text-align: center;
+    }
+</style>

@@ -1,4 +1,4 @@
-﻿@model chatting.Models.user
+﻿@model Qu2SM.Models.user
 
 <!DOCTYPE html>
 <html>
@@ -63,6 +63,15 @@
                 <label>Numarası:</label>
                 <span>@Model.userphone</span>
             </div>
+            <div>
+                <label>Konum:</label>
+                <span>@Model.usercity</span>
+            </div>
+            <div>
+                <label>İşi:</label>
+                <span>@Model.userjob</span>
+            </div>
+
 
         </div>
         <div class="content-list">
@@ -72,7 +81,10 @@
                 <div class="message-box">
                     <h3>@content.title</h3>
                     <p>@content.message</p>
+                    <a href="@Url.Action("ContentDetail", "Home", new { id = content.cid })">Detay</a>
+
                 </div>
+
             }
         </div>
     </div>

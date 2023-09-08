@@ -1,58 +1,70 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - ASP.NET Uygulamam</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+
+<style>
+        /* Sidebar stili */
+        .sidebar {
+            height: 100%;
+            width: 250px; /* Sidebar genişliği */
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #6b5b95; /* Sidebar arka plan rengi */
+            padding-top: 20px;
+        }
+
+            /* Sidebar linkleri */
+            .sidebar a {
+                padding: 15px 25px;
+                text-decoration: none;
+                font-size: 18px;
+                color: white;
+                display: block;
+            }
+
+                /* Sidebar linkleri hover efekti */
+                .sidebar a:hover {
+                    background-color: #ffdb58; /* Sarı renkli hover efekti */
+                    color: #333; /* Metin rengini değiştir */
+                }
+
+        /* İçerik alanının kaydırılması */
+        .content {
+            margin-left: 250px; /* Sidebar genişliği kadar içerik alanını kaydır */
+            padding: 20px;
+        }
+
+         
+        
+
+</style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
-        <div class="container">
-            @Html.ActionLink("Uygulama adı", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Gezintiyi aç/kapat" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                    <li>@Html.ActionLink("Giriş", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Mesaj Yaz", "AddContent", "Content", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Çıkış", "Logout", "Security", new { area = "" }, new { @class = "nav-link" })</li>
-                </ul>
-            </div>
-            <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                    <li>@Html.ActionLink("Profil", "Index", "User", new { area = "" }, new { @class = "nav-link" })</li>
-                </ul>
-            </div>
-<<<<<<< HEAD
-=======
-            <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        <li>@Html.ActionLink("Ayarlar", "UpdateUser", "User", new { area = "" }, new { @class = "nav-link" })</li>
-                    }
-                </ul>
-            </div>
->>>>>>> 98a5e62 (updateProje dosyası ekle.)
-        </div>
-    </nav>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - ASP.NET Uygulamam</p>
-        </footer>
-    </div>
     
+    <div class="sidebar">
+        -
+        @Html.ActionLink("Qu2", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+        @Html.ActionLink("Profil", "Index", "User", new { area = "" }, new { @class = "nav-link" })
+        @Html.ActionLink("Sohbet", "MyGroups", "Group", new { area = "" }, new { @class = "nav-link" })
+        @Html.ActionLink("Mesaj Yaz", "AddContent", "Content", new { area = "" }, new { @class = "nav-link" })
+        @Html.ActionLink("Çıkış", "Logout", "Security", new { area = "" }, new { @class = "nav-link" })
+        @Html.ActionLink("Ayarlar", "Update", "User", new { area = "" }, new { @class = "nav-link" })
+
+    </div>
+
+    <div class="content">
+        @RenderBody()
+    </div>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 </body>
 </html>
-

@@ -7,18 +7,18 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace chatting.Models
+namespace Qu2SM.Models
 {
     using System;
     using System.Collections.Generic;
     
     public partial class groupmessage
     {
-        public int gmid { get; set; }
         public string gmessage { get; set; }
         public Nullable<System.DateTime> date { get; set; }
         public Nullable<int> group_id { get; set; }
         public Nullable<int> user_id { get; set; }
+        public int gmeid { get; set; }
     
         public virtual group group { get; set; }
         public virtual user user { get; set; }

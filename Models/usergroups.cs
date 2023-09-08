@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace chatting.Models
+namespace Qu2SM.Models
 {
     using System;
     using System.Collections.Generic;

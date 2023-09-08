@@ -1,32 +1,23 @@
-﻿@model chatting.Models.content
-
-@{
-    ViewBag.Title = "Add Content";
-}
-
-<h2>Add New Content</h2>
-
-@using (Html.BeginForm("AddContent", "Content", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
+﻿<form action="AddContent" method="post" enctype="multipart/form-data">
     <div class="form-group">
-        @Html.LabelFor(model => model.title)
-        @Html.TextBoxFor(model => model.title, new { @class = "form-control", required = "required" })
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.message)
-        @Html.TextAreaFor(model => model.message, new { @class = "form-control", required = "required" })
+        <label for="title">Başlık</label>
+        <input type="text" id="title" name="title" class="form-control" />
     </div>
 
-    <!-- Resim Yükleme Alanı -->
     <div class="form-group">
-        <label for="imageFile">Resim Yükle (isteğe bağlı):</label>
-        <input type="file" name="imageFile" id="imageFile" />
+        <label for="message">Mesaj</label>
+        <input type="text" id="message" name="message" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label for="imageFile">Resim Yükle:</label>
+        <input type="file" name="imageFile" id="imageFile" accept=".jpg, .jpeg, .png, .gif" />
+    </div>
+
+    <div class="form-group">
+        <label for="videoFile">Video Yükle:</label>
+        <input type="file" name="videoFile" id="videoFile" accept=".mp4, .avi, .mov" />
     </div>
 
     <button type="submit" class="btn btn-primary">Gönder</button>
-}
-
-@if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
-{
-    <p class="text-danger">@ViewBag.ErrorMessage</p>
-}
+</form>

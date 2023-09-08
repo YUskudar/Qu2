@@ -1,105 +1,93 @@
-﻿<!DOCTYPE html>
+﻿@model Qu2SM.Models.user
+
+<!DOCTYPE html>
 <html>
 <head>
-    <title>Kullanıcı Profili</title>
+    <title>Kullanıcı Ayrıntıları</title>
     <style>
-        .container {
+        .user-details {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
-            flex-direction: row-reverse;
-        }
-
--       .profile-picture {
-            max-width: 200px;
         }
 
         .user-info {
-            flex-grow: 1;
+            width: 48%;
         }
 
-        .info-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 2px;
+        .content-list {
+            width: 48%;
         }
 
-        .label {
-            font-weight: bold;
-        }
+            .content-list h3 {
+                font-size: 18px;
+                margin-bottom: 10px;
+            }
 
-        .alert {
-            margin-top: 10px;
+        .message-box {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="profile-picture">
-            <div class="profile-picture">
-                @if (Model != null && Model.userpp != null)
-                {
-                    <img src="data:image;base64,@Convert.ToBase64String(Model.userpp)" alt="Profil Resmi" class="img-thumbnail" style="max-width: 200px;" />
-                }
-                else
-                {
-                    <p>Mevcut profil resmi yok.</p>
-                }
-            </div>
-<<<<<<< HEAD
-
-
-            @using (Html.BeginForm("Index", "User", FormMethod.Post, new { enctype = "multipart/form-data" }))
-            {
-                @Html.AntiForgeryToken()
-
-                <div class="form-group">
-                    <label for="imageFile">Yeni Profil Resmi:</label>
-                    <input type="file" name="imageFile" id="imageFile" />
-                    <button type="submit" class="btn btn-primary">Resmi Yükle</button>
-                </div>
-            }
-=======
->>>>>>> 98a5e62 (updateProje dosyası ekle.)
-        </div>
+    <h2>Kullanıcı Ayrıntıları</h2>
+    <div class="profile-picture">
+        @if (Model != null && Model.userpp != null)
+        {
+            <img src="data:image;base64,@Convert.ToBase64String(Model.userpp)" alt="Profil Resmi" class="img-thumbnail" style="max-width: 200px;" />
+        }
+        else
+        {
+            <p>Mevcut profil resmi yok.</p>
+        }
+    </div>
+    <div class="user-details">
         <div class="user-info">
-            <h2>Kullanıcı Profili</h2>
-
-            @if (ViewBag.ErrorMessage != null)
-            {
-                <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
-            }
-
-            <div class="info-row">
-                <span class="label">Kullanıcı Adı:</span>
-                <span>@Model.usernickname</span>
-            </div>
-            <div class="info-row">
-                <span class="label">Adı:</span>
+            <label>Kullanıcı Adı:</label>
+            <span>@Model.usernickname</span>
+            <div>
+                <label>Adı:</label>
                 <span>@Model.username</span>
             </div>
-            <div class="info-row">
-                <span class="label">Soyadı:</span>
+            <div>
+                <label>Soyadı:</label>
                 <span>@Model.usersurname</span>
             </div>
-            <div class="info-row">
-                <span class="label">Yaşı:</span>
+            <div>
+                <label>Yaşı:</label>
                 <span>@Model.userage</span>
             </div>
-            <div class="info-row">
-                <span class="label">Numarası:</span>
+            <div>
+                <label>Numarası:</label>
                 <span>@Model.userphone</span>
             </div>
-
-            <div class="info-row">
-                <span class="label">İşi:</span>
-                <span>@Model.userjob</span>
-            </div>
-            <div class="info-row">
-                <span class="label">Konumu:</span>
+            <div>
+                <label>Konum:</label>
                 <span>@Model.usercity</span>
             </div>
+            <div>
+                <label>İşi:</label>
+                <span>@Model.userjob</span>
+            </div>
+
+        </div>
+        <div class="content-list">
+            <h3>@Model.usernickname'nin İçerikleri</h3>
+            @foreach (var content in Model.content)
+            {
+                <div class="message-box">
+                    <h3>@content.title</h3>
+                    <p>@content.message</p>
+                    <form action="@Url.Action("DeleteContent", "Home")" method="post" style="display: inline;">
+                        @Html.Hidden("contentId", content.cid)
+                        <button type="submit" class="delete-button">Sil</button>
+                    </form>
+                </div>
+            }
         </div>
     </div>
+    <p><a href="@Url.Action("Index", "Home")">Ana Sayfa'ya Dön</a></p>
 </body>
 </html>

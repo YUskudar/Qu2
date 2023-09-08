@@ -39,5 +39,6 @@ namespace Qu2SM.Models
         public virtual DbSet<user> user { get; set; }
         public virtual DbSet<usergroups> usergroups { get; set; }
         public virtual DbSet<video> video { get; set; }
+        public virtual DbSet<follow> follow { get; set; }
     }
 }

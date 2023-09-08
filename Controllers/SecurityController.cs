@@ -3,6 +3,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using GoogleAuthentication.Services;
+using System.Threading.Tasks;
 
 namespace chatting.Controllers
 {
@@ -11,8 +13,13 @@ namespace chatting.Controllers
     {
         private chattingonlyEntities db = new chattingonlyEntities();
 
+        
         public ActionResult Login()
         {
+            var clientId = "25467907298-qhs74gbcv5u3hve0i9kmfpahpdmeu8sm.apps.googleusercontent.com";
+            var url = "https://localhost:44337/Security/GoogleLoginCallback";
+            var response = GoogleAuth.GetAuthUrl(clientId, url);
+            ViewBag.response = response;
             return View();
         }
 
@@ -93,6 +100,20 @@ namespace chatting.Controllers
             FormsAuthentication.SignOut();
             return RedirectToAction("Login", "Security");
         }
+   
+        public async Task<ActionResult> GoogleLoginCallback(string code)
+        {
+            var clientId = "25467907298-qhs74gbcv5u3hve0i9kmfpahpdmeu8sm.apps.googleusercontent.com";
+            var url = "https://localhost:44337/Security/GoogleLoginCallback";
+            var clientsecret = "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";
+            var token = await GoogleAuth.GetAuthAccessToken(code, clientId, clientsecret, url);
+            var userProfile = await GoogleAuth.GetProfileResponseAsync(token.AccessToken.ToString());
+            FormsAuthentication.SetAuthCookie(userProfile, false);
+
+            return RedirectToAction("Index","Home");
+        }
+
     }
 
+        
 }

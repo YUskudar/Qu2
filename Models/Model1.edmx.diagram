@@ -35,6 +35,9 @@
         <AssociationConnector Association="chattingonlyModel.FK_likes_user" ManuallyRouted="false" />
         <AssociationConnector Association="chattingonlyModel.FK_user_Roles" ManuallyRouted="false" />
         <AssociationConnector Association="chattingonlyModel.FK_usergroups_user" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="chattingonlyModel.follow" Width="1.5" PointX="5.25" PointY="20.75" />
+        <AssociationConnector Association="chattingonlyModel.FK_follow_user" />
+        <AssociationConnector Association="chattingonlyModel.FK_follow_user1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

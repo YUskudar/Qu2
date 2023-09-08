@@ -1,6 +1,7 @@
 ﻿using Qu2SM.Models;
 using System;
 using System.Collections.Generic;
+using System.Drawing.Printing;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -129,19 +130,27 @@ namespace Qu2SM.Controllers
 
                 ViewBag.GroupId = groupId;
 
-                var groupMessages = db.groupmessage//tarihe göre sıralama
+                var groupMessages = db.groupmessage // tarihe göre sıralama
                     .Where(m => m.group_id == groupId)
                     .OrderBy(m => m.date)
                     .ToList();
+
+                var groupMembers = db.usergroups
+                    .Where(ug => ug.group_id == groupId)
+                    .Select(ug => ug.user)
+                    .ToList();
+
+                ViewBag.GroupMembers = groupMembers;
 
                 return View(groupMessages);
             }
             else
             {
-                ModelState.AddModelError(string.Empty, "Bu gruba üye değilsiniz ve grup sohbetini görüntüleyemezsiniz."); //Kişi başkasından grup linkini alır katılmak isterse hata veriyor.
-                return View(); 
+                ModelState.AddModelError(string.Empty, "Bu gruba üye değilsiniz ve grup sohbetini görüntüleyemezsiniz."); // Kişi başkasından grup linkini alır katılmak isterse hata veriyor.
+                return View();
             }
         }
+
 
 
         [HttpPost]
@@ -213,7 +222,16 @@ namespace Qu2SM.Controllers
             return RedirectToAction("GroupChat", new { groupId = groupId });
         }
 
+        public ActionResult GroupMembers(int groupId)
+        {
+            var groupMembers = db.user
+                .Where(u => u.usergroups.Any(ug => ug.group_id == groupId))
+                .ToList();
 
+            return View(groupMembers);
+        }
+
+ 
 
     }
 

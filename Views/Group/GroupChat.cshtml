@@ -23,11 +23,19 @@
         <input type="text" id="messageText" name="messageText" class="form-control" required placeholder="Mesajınızı buraya yazın..." />
         <button type="submit" class="btn btn-primary">Gönder</button>
     </form>
-    
-        <p>
-            <a href="@Url.Action("LeaveGroup", "Group", new { groupId = ViewBag.GroupId })">Grubu Terk Et</a>
-        </p>
-    
+
+    <p>
+        <a href="@Url.Action("LeaveGroup", "Group", new { groupId = ViewBag.GroupId })">Grubu Terk Et</a>
+    </p>
+
+</div>
+
+<div id="user-list">
+    <h3>Grup Üyeleri</h3>
+    @foreach (var usergroup in ViewBag.GroupMembers)
+    {
+        <p>@usergroup.usernickname</p>
+    }
 </div>
 
 <style>
@@ -36,7 +44,7 @@
         flex-direction: column;
         align-items: center;
         justify-content: flex-end;
-        height: 80vh; 
+        height: 80vh;
         overflow-y: scroll;
     }
 

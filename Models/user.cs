@@ -24,6 +24,8 @@ namespace Qu2SM.Models
             this.groupmessage = new HashSet<groupmessage>();
             this.likes = new HashSet<likes>();
             this.usergroups = new HashSet<usergroups>();
+            this.follow = new HashSet<follow>();
+            this.follow1 = new HashSet<follow>();
         }
     
         public int userid { get; set; }
@@ -56,5 +58,9 @@ namespace Qu2SM.Models
         public virtual Roles Roles { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<usergroups> usergroups { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<follow> follow { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<follow> follow1 { get; set; }
     }
 }

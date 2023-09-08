@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="chattingonlyModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="chattingonlyModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="admin">
           <Key>
             <PropertyRef Name="adminid" />
@@ -53,6 +53,14 @@
           <Property Name="dm_id" Type="int" />
           <Property Name="usersending_id" Type="int" />
           <Property Name="userreceived_id" Type="int" />
+        </EntityType>
+        <EntityType Name="follow">
+          <Key>
+            <PropertyRef Name="fid" />
+          </Key>
+          <Property Name="fid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="follower_id" Type="int" Nullable="false" />
+          <Property Name="followed_id" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="group">
           <Key>
@@ -226,6 +234,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_follow_user">
+          <End Role="user" Type="Self.user" Multiplicity="1" />
+          <End Role="follow" Type="Self.follow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="userid" />
+            </Principal>
+            <Dependent Role="follow">
+              <PropertyRef Name="followed_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_follow_user1">
+          <End Role="user" Type="Self.user" Multiplicity="1" />
+          <End Role="follow" Type="Self.follow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="userid" />
+            </Principal>
+            <Dependent Role="follow">
+              <PropertyRef Name="follower_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_groupmessage_group">
           <End Role="group" Type="Self.group" Multiplicity="0..1" />
           <End Role="groupmessage" Type="Self.groupmessage" Multiplicity="*" />
@@ -340,6 +372,7 @@
           <EntitySet Name="content" EntityType="Self.content" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="directmessage" EntityType="Self.directmessage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="dmuser" EntityType="Self.dmuser" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="follow" EntityType="Self.follow" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="group" EntityType="Self.group" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="groupmessage" EntityType="Self.groupmessage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="likes" EntityType="Self.likes" Schema="dbo" store:Type="Tables" />
@@ -376,6 +409,14 @@
           <AssociationSet Name="FK_dmuser_user1" Association="Self.FK_dmuser_user1">
             <End Role="user" EntitySet="user" />
             <End Role="dmuser" EntitySet="dmuser" />
+          </AssociationSet>
+          <AssociationSet Name="FK_follow_user" Association="Self.FK_follow_user">
+            <End Role="user" EntitySet="user" />
+            <End Role="follow" EntitySet="follow" />
+          </AssociationSet>
+          <AssociationSet Name="FK_follow_user1" Association="Self.FK_follow_user1">
+            <End Role="user" EntitySet="user" />
+            <End Role="follow" EntitySet="follow" />
           </AssociationSet>
           <AssociationSet Name="FK_groupmessage_group" Association="Self.FK_groupmessage_group">
             <End Role="group" EntitySet="group" />
@@ -414,8 +455,7 @@
             <End Role="video" EntitySet="video" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="chattingonlyModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -568,6 +608,8 @@
           <NavigationProperty Name="likes" Relationship="Self.FK_likes_user" FromRole="user" ToRole="likes" />
           <NavigationProperty Name="Roles" Relationship="Self.FK_user_Roles" FromRole="user" ToRole="Roles" />
           <NavigationProperty Name="usergroups" Relationship="Self.FK_usergroups_user" FromRole="user" ToRole="usergroups" />
+          <NavigationProperty Name="follow" Relationship="chattingonlyModel.FK_follow_user" FromRole="user" ToRole="follow" />
+          <NavigationProperty Name="follow1" Relationship="chattingonlyModel.FK_follow_user1" FromRole="user" ToRole="follow" />
         </EntityType>
         <EntityType Name="usergroups">
           <Key>
@@ -859,7 +901,50 @@
             <End Role="user" EntitySet="user" />
             <End Role="usergroups" EntitySet="usergroups" />
           </AssociationSet>
+          <EntitySet Name="follow" EntityType="chattingonlyModel.follow" />
+          <AssociationSet Name="FK_follow_user" Association="chattingonlyModel.FK_follow_user">
+            <End Role="user" EntitySet="user" />
+            <End Role="follow" EntitySet="follow" />
+          </AssociationSet>
+          <AssociationSet Name="FK_follow_user1" Association="chattingonlyModel.FK_follow_user1">
+            <End Role="user" EntitySet="user" />
+            <End Role="follow" EntitySet="follow" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="follow">
+          <Key>
+            <PropertyRef Name="fid" />
+          </Key>
+          <Property Name="fid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="follower_id" Type="Int32" Nullable="false" />
+          <Property Name="followed_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="user" Relationship="chattingonlyModel.FK_follow_user" FromRole="follow" ToRole="user" />
+          <NavigationProperty Name="user1" Relationship="chattingonlyModel.FK_follow_user1" FromRole="follow" ToRole="user" />
+        </EntityType>
+        <Association Name="FK_follow_user">
+          <End Type="chattingonlyModel.user" Role="user" Multiplicity="1" />
+          <End Type="chattingonlyModel.follow" Role="follow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="userid" />
+            </Principal>
+            <Dependent Role="follow">
+              <PropertyRef Name="followed_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_follow_user1">
+          <End Type="chattingonlyModel.user" Role="user" Multiplicity="1" />
+          <End Type="chattingonlyModel.follow" Role="follow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="userid" />
+            </Principal>
+            <Dependent Role="follow">
+              <PropertyRef Name="follower_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1014,6 +1099,15 @@
                 <ScalarProperty Name="vid" ColumnName="vid" />
                 <ScalarProperty Name="video1" ColumnName="video1" />
                 <ScalarProperty Name="content_id" ColumnName="content_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="follow">
+            <EntityTypeMapping TypeName="chattingonlyModel.follow">
+              <MappingFragment StoreEntitySet="follow">
+                <ScalarProperty Name="followed_id" ColumnName="followed_id" />
+                <ScalarProperty Name="follower_id" ColumnName="follower_id" />
+                <ScalarProperty Name="fid" ColumnName="fid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

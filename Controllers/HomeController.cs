@@ -272,6 +272,14 @@ namespace Qu2SM.Controllers
             return View("ContentDetail", content);
         }
 
+        public user GetCurrentUser()
+        {
+            string currentUserName = User.Identity.Name;
+            user currentUser = db.user.FirstOrDefault(u => u.useremail == currentUserName);
+            return currentUser;
+        }
+
+
 
     }
 }

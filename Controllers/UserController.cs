@@ -39,6 +39,8 @@ namespace Qu2SM.Controllers
 
             return currentUser;
         }
+        
+
         [HttpPost]
 
         public ActionResult Index(HttpPostedFileBase imageFile)
@@ -119,5 +121,10 @@ namespace Qu2SM.Controllers
                 ViewBag.ErrorMessage = "Lütfen oturum açın.";
                 return RedirectToAction("Index", "Home");
             }
-        }
+
+        
     }
+
+    
+
+}
